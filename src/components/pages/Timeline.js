@@ -1,6 +1,9 @@
+import { Header } from "../shared/Header";
 
 export default function Timeline() {
-    return(
-        <>essa é a timeline</>
+    return (
+        <>
+            <Header />
+        </>
     );
 }
