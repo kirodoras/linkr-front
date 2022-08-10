@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import UserContext from "../contexts/UserContext";
 import LoginPage from "./pages/LoginPage";
@@ -7,10 +7,24 @@ import SignUpPage from "./pages/SignUpPage";
 import Timeline from "./pages/Timeline";
 
 export default function App() {
+    const apiUrl = "http://localhost:4000";
 
     const [user, setUser] = useState({});
 
-    const contextValue = { user, setUser };
+    useEffect(() => {
+        const userData = localStorage.getItem("userData");
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+    }, []);
+
+    const authorization = {
+        headers: {
+            Authorization: `Bearer ${user.token}`
+        }
+    }
+
+    const contextValue = { user, setUser, apiUrl, authorization };
 
     return (
         <UserContext.Provider value={contextValue}>

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function Login() {
-    const { setUser } = useContext(UserContext);
+    const { setUser, apiUrl } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -29,11 +29,12 @@ export default function Login() {
                 password
             }
     
-            const promise = axios.post("http://localhost:4000/", body);
+            const promise = axios.post(`${apiUrl}/`, body);
     
             promise
                 .then(res => {
                     setUser(res.data);
+                    localStorage.setItem("userData", JSON.stringify(res.data));
                     navigate("/timeline");
                 }).catch((err) => {
                     console.log(err.response);

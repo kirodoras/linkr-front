@@ -6,7 +6,7 @@ import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function SignUp() {
-    const { setUser } = useContext(UserContext);
+    const { setUser, apiUrl } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export default function SignUp() {
                 pictureUrl
             }
     
-            const promise = axios.post("http://localhost:4000/sign-up", body);
+            const promise = axios.post(`${apiUrl}/sign-up`, body);
     
             promise
                 .then(res => {
