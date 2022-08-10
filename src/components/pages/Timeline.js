@@ -1,6 +1,7 @@
 import Styled from "styled-components";
 import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
+import { Post } from "../shared/Post";
 
 export default function Timeline() {
     return (
@@ -11,6 +12,10 @@ export default function Timeline() {
                     timeline
                 </h1>
                 <PublishPost />
+                <Post />
+                <Post />
+                <Post />
+                <Post />
             </TimelineStyled>
         </>
     );
@@ -21,7 +26,8 @@ const TimelineStyled = Styled.div`
     max-width: 100%;
     height: 100%;
     margin-top: 10rem;
-
+    overflow: hidden;
+    overflow-y: scroll;
     &>h1 {
         font-weight: 700;
         font-size: 2.6875rem;
