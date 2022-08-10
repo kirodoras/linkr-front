@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Styled from "styled-components";
 import defaultAvatar from '../../assets/default-avatar.png';
-
+import { ThreeDots } from 'react-loader-spinner';
+import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
 export function PublishPost() {
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const token = user?.token;
     const userData = user?.userData;
 
@@ -17,6 +18,28 @@ export function PublishPost() {
 
     function submitData(event) {
         event.preventDefault();
+        if (token.length > 0) {
+            setDisabled(true);
+            setButtonContent('Publishing...');
+
+            const URL = `http://localhost:4000/timeline`;
+            const AUT = { headers: { Authorization: `Bearer ${token}` } };
+            const BODY = { url, article };
+
+            const promise = axios.post(URL, BODY, AUT);
+
+            promise.then((response) => {
+                console.log(response);
+                setDisabled(false);
+                setButtonContent('Publish');
+                setUrl('');
+                setArticle('');
+            }).catch((err) => {
+                alert("Houve um erro ao publicar seu link");
+                setDisabled(false);
+                setButtonContent('Publish');
+            });
+        }
     }
 
     return (
@@ -26,7 +49,7 @@ export function PublishPost() {
                 <h2>What are you going to share today?</h2>
                 <input
                     disabled={disabled}
-                    type='text'
+                    type='url'
                     placeholder='http://...'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
@@ -111,6 +134,9 @@ const FormStyled = Styled.form`
     }
 
     &>button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 7rem;
         height: 1.9375rem;
         background: #1877F2;
