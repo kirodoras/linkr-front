@@ -103,7 +103,7 @@ const Dropdown = styled.div`
         right: 0;
         bottom: -57px;  
 
-        background-color: #151515; 
+        background-color: #171717;
         border-radius: 0px 0px 0px 20px;
         z-index: 1;
     }
