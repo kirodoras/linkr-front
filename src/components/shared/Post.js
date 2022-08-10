@@ -1,13 +1,16 @@
 import Styled from "styled-components";
+import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
 
-export function Post() {
-    const username = 'Juvenal Juvêncio';
-    const article = 'Muito maneiro esse tutorial de Material UI com React, deem uma olhada';
-    const url = 'https://i.pinimg.com/564x/b5/67/08/b567089c804ad4ea0b5b1eb924baa022.jpg';
+export function Post({url, article, username, pictureUrl}) {
     const title = 'Como aplicar o Material UI em um projeto React';
     const description = 'Hey! I have moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
-    const picture = defaultAvatar;
+    const pictureLink = defaultAvatar;
+
+    function redirectToUrl(url){
+         window.location.href = url;
+         return null;
+    }
 
     return (
         <PublishPostStyled>
@@ -15,11 +18,11 @@ export function Post() {
             <PostContentStyled>
                 <UsernameStyled>{username}</UsernameStyled>
                 <ArticleStyled>{article}</ArticleStyled>
-                <LinkContentStyled href={url} target="_blank" rel="noopener noreferrer">
+                <LinkContentStyled onClick={() => redirectToUrl(url)}>
                     <TitleStyled>{title}</TitleStyled>
                     <DescriptionStyled>{description}</DescriptionStyled>
                     <UrlStyled>{url}</UrlStyled>
-                    <img src={picture} alt="Url logo" />
+                    <img src={pictureLink} alt="Url logo" />
                 </LinkContentStyled>
             </PostContentStyled>
         </PublishPostStyled>
