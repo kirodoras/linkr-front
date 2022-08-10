@@ -7,7 +7,7 @@ import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
 export function PublishPost() {
-    const { user } = useContext(UserContext);
+    const { user, apiUrl, authorization } = useContext(UserContext);
     const token = user?.token;
     const userData = user?.userData;
 
@@ -22,8 +22,8 @@ export function PublishPost() {
             setDisabled(true);
             setButtonContent('Publishing...');
 
-            const URL = `http://localhost:4000/timeline`;
-            const AUT = { headers: { Authorization: `Bearer ${token}` } };
+            const URL = `${apiUrl}/timeline`;
+            const AUT = authorization;
             const BODY = { url, article };
 
             const promise = axios.post(URL, BODY, AUT);

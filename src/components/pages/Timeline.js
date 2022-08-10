@@ -1,15 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Styled from "styled-components";
 import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
 import { Post } from "../shared/Post";
+import UserContext from "../../contexts/UserContext";
 
 export default function Timeline() {
+
+    const { apiUrl } = useContext(UserContext);
+
     const [postsArray, setPostsArray] = useState([]);
 
     useEffect(() => {
-        const URL = `http://localhost:4000/timeline`;
+        const URL = `${apiUrl}/timeline`;
         const promise = axios.get(URL);
         promise.then((response) => {
             setPostsArray(response.data);
