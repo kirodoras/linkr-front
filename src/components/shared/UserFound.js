@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import defaultAvatar from '../../assets/default-avatar.png';
 
-export default function UserFound({ userPicture, name, goUserPage }) {
+export default function UserFound({ userPicture, username, goUserPage }) {
     return ( 
         <Container onClick={goUserPage}>
             <img src={userPicture ? userPicture : defaultAvatar} alt="Avatar" />
-            <h3>{name}</h3>
+            <h3>{username}</h3>
         </Container>
     );
    

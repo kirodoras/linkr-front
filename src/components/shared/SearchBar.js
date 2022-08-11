@@ -1,11 +1,29 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { DebounceInput } from 'react-debounce-input';
 import UserFound from "./UserFound";
+import UserContext from "../../contexts/UserContext";
+import axios from "axios";
 
 export default function SearchBar() {
+    const { apiUrl, authorization } = useContext(UserContext);
+
     const [search, setSearch] = useState('');
     const [usersFoundList, setUsersFoundList] = useState([]);
+
+    useEffect(() => {
+        if(search.length >= 3) {
+            const URL = `${apiUrl}/user?username=${search}`;
+            const promise = axios.get(URL, authorization);
+            promise.then((response) => {
+                setUsersFoundList(response.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+        } else {
+            setUsersFoundList([]);
+        }
+    }, [search]);
 
     function goUserPage() {
         alert("vai pra pagina do usuario");
@@ -13,7 +31,7 @@ export default function SearchBar() {
 
     function loadUsers() {
         return (
-            usersFoundList.map((user, index) => <UserFound key={index} userPicture={user.pictureUrl} name={user.name} goUserPage={goUserPage} />)
+            usersFoundList.map((user, index) => <UserFound key={index} userPicture={user.pictureUrl} username={user.username} goUserPage={goUserPage} />)
         );
     }
 
@@ -21,7 +39,7 @@ export default function SearchBar() {
 
     return (
         <Container usersFoundList={usersFoundList}>
-            <DebounceInput type="text" placeholder="Search for people" minLength={3} debounceTimeout={300} onChange={(e) => setSearch(e.target.value)} value={search} usersFoundList={usersFoundList} />
+            <DebounceInput type="text" placeholder="Search for people" minLength={0} debounceTimeout={300} onChange={(e) => setSearch(e.target.value)} value={search} usersFoundList={usersFoundList} />
             {showUsers}
         </Container>
     );

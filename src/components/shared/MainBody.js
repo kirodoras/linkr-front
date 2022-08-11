@@ -8,11 +8,12 @@ import styled from "styled-components";
 
 export default function MainBody({ title, isTimeline, route }) {
 
-    const { apiUrl, showLogout, setShowLogout } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
 
     const [postsArray, setPostsArray] = useState([]);
 
     useEffect(() => {
+        //acho que seria legal esse get ser autenticado
         const URL = `${apiUrl}/${route}`;
         const promise = axios.get(URL);
         promise.then((response) => {
