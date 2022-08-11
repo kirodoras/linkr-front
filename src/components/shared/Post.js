@@ -1,5 +1,4 @@
 import Styled from "styled-components";
-import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
 
@@ -14,7 +13,7 @@ export function Post({ id, url, article, username, pictureUrl }) {
     }
 
     return (
-        <PublishPostStyled>
+        <PostStyled>
             <img src={defaultAvatar} alt="Avatar" />
             <Heart id={id}/>
             <PostContentStyled>
@@ -27,11 +26,11 @@ export function Post({ id, url, article, username, pictureUrl }) {
                     <img src={pictureLink} alt="Url logo" />
                 </LinkContentStyled>
             </PostContentStyled>
-        </PublishPostStyled>
+        </PostStyled>
     );
 }
 
-const PublishPostStyled = Styled.div`
+const PostStyled = Styled.div`
     position: relative;
     width: 100%;
     height: 17.25rem;
@@ -50,6 +49,11 @@ const PublishPostStyled = Styled.div`
         width: 3.125rem;
         height: 3.125rem;
         border-radius: 50%;
+    }
+
+    @media(max-width: 1100px) {
+        margin-top: 1rem;
+        border-radius: 0;
     }
 `;
 

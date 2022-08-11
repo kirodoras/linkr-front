@@ -39,6 +39,6 @@ const Container = styled.div`
     color: ${props => props.heartColor ? "red" : "white"};
     position: absolute;
     
-    top: 120px;
-    left: 50px;
+    top: 30%;
+    left: calc((0.00415 * 100%) + 1.9412rem);
 `

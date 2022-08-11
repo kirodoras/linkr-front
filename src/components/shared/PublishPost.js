@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Styled from "styled-components";
 import defaultAvatar from '../../assets/default-avatar.png';
-import { ThreeDots } from 'react-loader-spinner';
 import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
