@@ -22,7 +22,7 @@ export function PublishPost() {
             setDisabled(true);
             setButtonContent('Publishing...');
 
-            const URL = `http://localhost:4000/timeline`;
+            const URL = `http://localhost:4001/timeline`;
             const AUT = { headers: { Authorization: `Bearer ${token}` } };
             const BODY = { url, article };
 

@@ -1,16 +1,17 @@
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
-
+import ReactHashtag from "@mdnm/react-hashtag";
 export function Post({url, article, username, pictureUrl}) {
     const title = 'Como aplicar o Material UI em um projeto React';
-    const description = 'Hey! I have moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
+    const description = 'Hey! I have #moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
     const pictureLink = defaultAvatar;
 
     function redirectToUrl(url){
          window.location.href = url;
          return null;
     }
+//                    <DescriptionStyled>{description}</DescriptionStyled>
 
     return (
         <PublishPostStyled>
@@ -20,7 +21,13 @@ export function Post({url, article, username, pictureUrl}) {
                 <ArticleStyled>{article}</ArticleStyled>
                 <LinkContentStyled onClick={() => redirectToUrl(url)}>
                     <TitleStyled>{title}</TitleStyled>
-                    <DescriptionStyled>{description}</DescriptionStyled>
+                    
+                   
+                    <TextStyle>
+                        <ReactHashtag renderHashtag={(hasht)=><Link to={`/hashtag/${hasht.substr(1)}`}><Hashtag>{hasht}</Hashtag></Link>}>
+                            {description}
+                        </ReactHashtag>
+                    </TextStyle>
                     <UrlStyled>{url}</UrlStyled>
                     <img src={pictureLink} alt="Url logo" />
                 </LinkContentStyled>
@@ -95,6 +102,19 @@ const LinkContentStyled = Styled.a`
             width: 95px;
         }
     }
+`;
+ const Hashtag = Styled.span`
+  color: white;
+  font-size: 22px;
+  font-weight: bold
+`;
+const TextStyle = Styled.span`
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    color: #B7B7B7;
 `;
 
 const UsernameStyled = Styled.span`

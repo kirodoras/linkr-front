@@ -9,7 +9,7 @@ export default function Timeline() {
     const [postsArray, setPostsArray] = useState([]);
 
     useEffect(() => {
-        const URL = `http://localhost:4000/timeline`;
+        const URL = `http://localhost:4001/timeline`;
         const promise = axios.get(URL);
         promise.then((response) => {
             setPostsArray(response.data);

@@ -19,6 +19,7 @@ export default function App() {
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/sign-up" element={<SignUpPage />} />
                     <Route path="/timeline" element={<Timeline />} />
+                    <Route path="/hashtag/:hashtag" element={<Timeline/>} />
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
