@@ -7,8 +7,8 @@ import SignUpPage from "./pages/SignUpPage";
 import Timeline from "./pages/Timeline";
 
 export default function App() {
-    //const apiUrl = "http://localhost:4000";
-    const apiUrl = "https://linkr-32.herokuapp.com"
+    const apiUrl = "http://localhost:4000";
+    // const apiUrl = "https://linkr-32.herokuapp.com"
 
     const [user, setUser] = useState(getUser);
     const [showLogout, setShowLogout] = useState(false);
@@ -21,7 +21,7 @@ export default function App() {
         return {};
     }
 
-    console.log(localStorage.getItem("userData"));
+    // console.log(localStorage.getItem("userData"));
 
     const authorization = {
         headers: {
