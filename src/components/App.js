@@ -10,14 +10,18 @@ export default function App() {
     //const apiUrl = "http://localhost:4000";
     const apiUrl = "https://linkr-32.herokuapp.com"
 
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(getUser);
+    const [showLogout, setShowLogout] = useState(false);
 
-    useEffect(() => {
+    function getUser() {
         const userData = localStorage.getItem("userData");
         if (userData) {
-            setUser(JSON.parse(userData));
+            return JSON.parse(userData);
         }
-    }, []);
+        return {};
+    }
+
+    console.log(localStorage.getItem("userData"));
 
     const authorization = {
         headers: {
@@ -25,7 +29,7 @@ export default function App() {
         }
     }
 
-    const contextValue = { user, setUser, apiUrl, authorization };
+    const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization };
 
     return (
         <UserContext.Provider value={contextValue}>

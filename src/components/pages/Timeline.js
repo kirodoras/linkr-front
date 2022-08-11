@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import Styled from "styled-components";
 import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
 import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
+import styled from "styled-components";
 
 export default function Timeline() {
 
-    const { apiUrl } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout } = useContext(UserContext);
 
     const [postsArray, setPostsArray] = useState([]);
 
@@ -23,7 +23,7 @@ export default function Timeline() {
     }, []);
 
     return (
-        <>
+        <Container onClick={() => { if(showLogout) setShowLogout(false) }}>
             <Header />
             <TimelineStyled>
                 <h1>
@@ -43,14 +43,21 @@ export default function Timeline() {
                     : <span>There are no posts yet</span>
                 }
             </TimelineStyled>
-        </>
+        </Container>
     );
 }
 
-const TimelineStyled = Styled.div`
+const Container = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: #333333;
+`
+
+const TimelineStyled = styled.div`
     width: 38.1875rem;
     max-width: 100%;
-    height: 100%;
     margin-top: 10rem;
     overflow: hidden;
     overflow-y: scroll;

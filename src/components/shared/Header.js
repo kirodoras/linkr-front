@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import logo from '../../assets/linkr-logo.svg';
 import defaultAvatar from '../../assets/default-avatar.png';
 import { useNavigate } from 'react-router-dom';
+import UserContext from "../../contexts/UserContext";
 
 export function Header() {
-    const userPicture = '';
+    const { user, showLogout, setShowLogout } = useContext(UserContext);
 
-    const [showLogout, setShowLogout] = useState(false);
+    const userPicture = user.userData.pictureUrl;
 
     const navigate = useNavigate();
 
