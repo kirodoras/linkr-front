@@ -6,14 +6,15 @@ import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
 import styled from "styled-components";
 
-export default function MainBody({ title, isTimeline }) {
+export default function MainBody({ title, isTimeline, route }) {
 
-    const { apiUrl, showLogout, setShowLogout } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
 
     const [postsArray, setPostsArray] = useState([]);
 
     useEffect(() => {
-        const URL = `${apiUrl}/timeline`;
+        //acho que seria legal esse get ser autenticado
+        const URL = `${apiUrl}/${route}`;
         const promise = axios.get(URL);
         promise.then((response) => {
             setPostsArray(response.data);
