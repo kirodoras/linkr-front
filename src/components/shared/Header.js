@@ -5,6 +5,7 @@ import logo from '../../assets/linkr-logo.svg';
 import defaultAvatar from '../../assets/default-avatar.png';
 import { useNavigate } from 'react-router-dom';
 import UserContext from "../../contexts/UserContext";
+import SearchBar from './SearchBar';
 
 export function Header() {
     const { user, showLogout, setShowLogout } = useContext(UserContext);
@@ -43,11 +44,25 @@ export function Header() {
         }
     }
 
+    function createSearchBarDesktop() {
+        if(window.innerWidth > 1100) {
+            return (
+                <ContainerSearchBar>
+                    <SearchBar />
+                </ContainerSearchBar>
+            );
+        } else {
+            return(<></>);
+        }
+    }
+
     const dropdown = createDropdown();
+    const searchBarDesktop = createSearchBarDesktop();
 
     return (
         <HeaderStyled>
             <img src={logo} alt="Logo Linkr" />
+            {searchBarDesktop}
             <Dropdown>
                 {dropdown}
             </Dropdown>
@@ -55,12 +70,15 @@ export function Header() {
     );
 }
 
+const ContainerSearchBar = styled.div`
+    width: 40%;
+`
+
 const HeaderStyled = styled.header`
     width: 100%;
     height: 72px;
 
     display: flex;
-    align-items: center;
     justify-content: space-between;
 
     position: fixed;
@@ -71,6 +89,7 @@ const HeaderStyled = styled.header`
 
     &>img {
         margin-left: 28px;
+        align-self: center;
     }
 
 `
@@ -80,7 +99,7 @@ const Dropdown = styled.div`
     align-items: center;
     gap: 0.625rem;
     position: relative;
-    
+    align-self: center;
 
     svg {
         font-size: 2.25rem; 
