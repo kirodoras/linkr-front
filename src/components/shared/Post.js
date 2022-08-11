@@ -1,9 +1,9 @@
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
-import { Heart } from "./heart";
+import { Heart } from "./Heart";
 
-export function Post({id, url, article, username, pictureUrl}) {
+export function Post({ id, url, article, username, pictureUrl }) {
     const title = 'Como aplicar o Material UI em um projeto React';
     const description = 'Hey! I have moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
     const pictureLink = defaultAvatar;

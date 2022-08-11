@@ -6,25 +6,23 @@ import axios from 'axios';
 
 export function Heart({ id }) {
     const [clicked, setClicked] = useState(false);
-    const { user } = useContext(UserContext);
+    const { user, apiUrl, authorization } = useContext(UserContext);
 
     function click() {
-        const token = user?.token;
         const userId = user?.userData.id;
         const postId = id;
-        const URL = `http://localhost:4000`;
-        const AUT = { headers: { Authorization: `Bearer ${token}` } };
+        const AUT = authorization;
         const BODY = { userId, postId };
 
         if (!clicked) {
-            axios.post(`${URL}/like`, BODY, AUT)
+            axios.post(`${apiUrl}/like`, BODY, AUT)
                 .then((res) =>
                     setClicked(true)
                 ).catch(err => {
                     console.log(err)
                 })
         } else {
-            axios.post(`${URL}/deletelike`, BODY, AUT)
+            axios.post(`${apiUrl}/deletelike`, BODY, AUT)
                 .then((res) =>
                     setClicked(false)
                 )
@@ -42,5 +40,5 @@ const Container = styled.div`
     position: absolute;
     
     top: 120px;
-    left 50px;
+    left: 50px;
 `

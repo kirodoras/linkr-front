@@ -8,7 +8,7 @@ import Timeline from "./pages/Timeline";
 
 export default function App() {
     const apiUrl = "http://localhost:4000";
-    // const apiUrl = "https://linkr-32.herokuapp.com"
+    //const apiUrl = "https://linkr-32.herokuapp.com"
 
     const [user, setUser] = useState(getUser);
     const [showLogout, setShowLogout] = useState(false);
