@@ -12,20 +12,19 @@ export function Heart({ id }) {
         const token = user?.token;
         const userId = user?.userData.id;
         const postId = id;
-        const URL = `http://localhost:4000/like`;
+        const URL = `http://localhost:4000`;
         const AUT = { headers: { Authorization: `Bearer ${token}` } };
         const BODY = { userId, postId };
 
         if (!clicked) {
-            axios.post(URL, BODY, AUT)
+            axios.post(`${URL}/like`, BODY, AUT)
                 .then((res) =>
                     setClicked(true)
                 ).catch(err => {
                     console.log(err)
                 })
         } else {
-            console.log(BODY)
-            axios.delete(URL, BODY)
+            axios.post(`${URL}/deletelike`, BODY, AUT)
                 .then((res) =>
                     setClicked(false)
                 )
