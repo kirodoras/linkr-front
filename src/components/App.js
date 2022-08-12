@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import UserContext from "../contexts/UserContext";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import Timeline from "./pages/Timeline";
+import TimelinePage from "./pages/TimelinePage";
+import UserPage from "./pages/UserPage";
 
 export default function App() {
     const apiUrl = "http://localhost:4000";
@@ -37,7 +38,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/sign-up" element={<SignUpPage />} />
-                    <Route path="/timeline" element={<Timeline />} />
+                    <Route path="/timeline" element={<TimelinePage />} />
+                    <Route path="/user/:id" element={<UserPage />} />
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
