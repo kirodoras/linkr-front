@@ -5,11 +5,6 @@ import { Heart } from "./Heart";
 
 export function Post({ id, url, article, username, pictureUrl, title, image, description }) {
 
-    function redirectToUrl(url){
-         window.location.href = url;
-         return null;
-    }
-
     return (
         <PostStyled>
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
@@ -17,7 +12,7 @@ export function Post({ id, url, article, username, pictureUrl, title, image, des
             <PostContentStyled>
                 <UsernameStyled>{username}</UsernameStyled>
                 <ArticleStyled>{article}</ArticleStyled>
-                <LinkContentStyled onClick={() => redirectToUrl(url)}>
+                <LinkContentStyled href={url} target="_blank">
                     <TitleStyled>{title}</TitleStyled>
                     <DescriptionStyled>{description}</DescriptionStyled>
                     <UrlStyled>{url}</UrlStyled>
