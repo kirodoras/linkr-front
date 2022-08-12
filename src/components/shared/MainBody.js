@@ -11,6 +11,8 @@ export default function MainBody({ title, isTimeline, route }) {
 
     const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
 
+    const [update, setUpdate] = useState(false);
+
     const [loading, setLoading] = useState(
         <TailSpin
             color="#FFFFFF"
@@ -18,11 +20,12 @@ export default function MainBody({ title, isTimeline, route }) {
         />);
 
     const [postsArray, setPostsArray] = useState([]);
-    const [update, setUpdate] = useState(false);
+    const [usersData, setUsersData] = useState([]);
 
     useEffect(() => {
         //acho que seria legal esse get ser autenticado
         const URL = `${apiUrl}/${route}`;
+        console.log(route);
         const promise = axios.get(URL);
         promise.then((response) => {
             setPostsArray(response.data);
@@ -31,13 +34,14 @@ export default function MainBody({ title, isTimeline, route }) {
             console.log(err);
             setLoading(null);
         });
-    }, [update]);
+    }, [update, apiUrl, authorization, route]);
+    
 
     function showPublishPost() {
         if (isTimeline) {
             return (
                 <>
-                    <PublishPost update={update} setUpdate={setUpdate}/>
+                    <PublishPost update={update} setUpdate={setUpdate} />
                 </>
             );
         } else {
@@ -46,13 +50,14 @@ export default function MainBody({ title, isTimeline, route }) {
     }
 
     function showPosts() {
-        if (postsArray.length > 0) {
+        if (postsArray.length > 0 && postsArray[0].postId !== null) {
             return (
                 <>
                     {postsArray.map((value) =>
                         <Post
-                            key={value.id}
-                            id={value.id}
+                            key={value.postId}
+                            userId={value.userId}
+                            postId={value.postId}
                             url={value.url}
                             article={value.article}
                             username={value.username}
@@ -72,14 +77,30 @@ export default function MainBody({ title, isTimeline, route }) {
         }
     }
 
+    function createUserPageTitle() {
+        if (title) {
+            return (
+                <>{title}</>
+            );
+        } else if (postsArray.length > 0) {
+            return (
+                <UserPageTitle>
+                    <img src={postsArray[0].pictureUrl} alt="picture profile" />
+                    <h1>{postsArray[0].username}'s posts</h1>
+                </UserPageTitle>
+            );
+        }
+    }
+
     const publishPost = showPublishPost();
+    const userPageTitle = createUserPageTitle();
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
             <Header />
             <TimelineStyled>
                 <h1>
-                    {title}
+                    {userPageTitle}
                 </h1>
                 {publishPost}
                 {loading ? loading : showPosts()}
@@ -87,6 +108,25 @@ export default function MainBody({ title, isTimeline, route }) {
         </Container>
     );
 }
+
+const UserPageTitle = styled.div`
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 0 18px;
+    }
+
+    h1 {
+        font-weight: 700;
+        font-size: 43px;
+        line-height: 64px;
+        color: #FFFFFF;
+    }
+`
 
 const Container = styled.div`
     width: 100%;

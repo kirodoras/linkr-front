@@ -2,15 +2,17 @@ import Styled from "styled-components";
 import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
+import { useNavigate } from "react-router-dom";
 
-export function Post({ id, url, article, username, pictureUrl, title, image, description }) {
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+    const navigate = useNavigate();
 
     return (
         <PostStyled>
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
-            <Heart id={id}/>
+            <Heart id={postId} />
             <PostContentStyled>
-                <UsernameStyled>{username}</UsernameStyled>
+                <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
                 <ArticleStyled>{article}</ArticleStyled>
                 <LinkContentStyled href={url} target="_blank">
                     <TitleStyled>{title}</TitleStyled>

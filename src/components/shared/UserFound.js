@@ -1,9 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import defaultAvatar from '../../assets/default-avatar.png';
 
-export default function UserFound({ id, userPicture, username, goUserPage }) {
+export default function UserFound({ id, userPicture, username, setSearch }) {
+    const navigate = useNavigate();
+
     return ( 
-        <Container onClick={() => goUserPage(id)}>
+        <Container onClick={() => {
+            setSearch('');
+            navigate(`/user/${id}`);
+            }}>
             <img src={userPicture ? userPicture : defaultAvatar} alt="Avatar" />
             <h3>{username}</h3>
         </Container>

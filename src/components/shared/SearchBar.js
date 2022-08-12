@@ -25,19 +25,15 @@ export default function SearchBar() {
         } else {
             setUsersFoundList([]);
         }
-    }, [search]);
-
-    function goUserPage(id) {
-        navigate(`/user/${id}`)
-    }
+    }, [search, apiUrl, authorization]);
 
     function loadUsers() {
         return (
-            usersFoundList.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} goUserPage={goUserPage} />)
+            usersFoundList.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} setSearch={setSearch} />)
         );
     }
 
-    const showUsers = loadUsers()
+    const showUsers = loadUsers();
 
     return (
         <Container usersFoundList={usersFoundList}>
