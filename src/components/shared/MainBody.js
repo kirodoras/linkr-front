@@ -4,13 +4,21 @@ import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
 import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
+import { TailSpin } from 'react-loader-spinner';
 import styled from "styled-components";
 
 export default function MainBody({ title, isTimeline, route }) {
 
     const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
 
+    const [loading, setLoading] = useState(
+        <TailSpin
+            color="#FFFFFF"
+            width={70}
+        />);
+
     const [postsArray, setPostsArray] = useState([]);
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
         //acho que seria legal esse get ser autenticado
@@ -18,16 +26,18 @@ export default function MainBody({ title, isTimeline, route }) {
         const promise = axios.get(URL);
         promise.then((response) => {
             setPostsArray(response.data);
+            setLoading(null);
         }).catch((err) => {
             console.log(err);
+            setLoading(null);
         });
-    }, []);
+    }, [update]);
 
     function showPublishPost() {
-        if(isTimeline) {
+        if (isTimeline) {
             return (
                 <>
-                    <PublishPost />
+                    <PublishPost update={update} setUpdate={setUpdate}/>
                 </>
             );
         } else {
@@ -35,18 +45,11 @@ export default function MainBody({ title, isTimeline, route }) {
         }
     }
 
-    const publishPost = showPublishPost();
-
-    return (
-        <Container onClick={() => { if(showLogout) setShowLogout(false) }}>
-            <Header />
-            <TimelineStyled>
-                <h1>
-                    {title}
-                </h1>
-                {publishPost}
-                {postsArray.length ?
-                    postsArray.map((value) =>
+    function showPosts() {
+        if (postsArray.length > 0) {
+            return (
+                <>
+                    {postsArray.map((value) =>
                         <Post
                             key={value.id}
                             id={value.id}
@@ -57,9 +60,29 @@ export default function MainBody({ title, isTimeline, route }) {
                             title={value.title}
                             image={value.image}
                             description={value.description}
-                        />)
-                    : <span>There are no posts yet</span>
-                }
+                        />)}
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <span>There are no posts yet</span>
+                </>
+            );
+        }
+    }
+
+    const publishPost = showPublishPost();
+
+    return (
+        <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
+            <Header />
+            <TimelineStyled>
+                <h1>
+                    {title}
+                </h1>
+                {publishPost}
+                {loading ? loading : showPosts()}
             </TimelineStyled>
         </Container>
     );
@@ -81,11 +104,17 @@ const TimelineStyled = styled.div`
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     ::-webkit-scrollbar {
         width: 0;
     }
 
     &>h1 {
+        width: 100%;
+        align-self: left;
         font-weight: 700;
         font-size: 2.6875rem;
         line-height: 4rem;
@@ -93,8 +122,13 @@ const TimelineStyled = styled.div`
     }
 
     &>span {
-        margin: 0 auto;
+        margin-top: 1.5rem;
+        font-size: 1.8rem;
         color: #FFFFFF;
+    }
+
+    svg {
+        margin-top: 1.5rem;    
     }
 
     @media(max-width: 68.75rem) {
