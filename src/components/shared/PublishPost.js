@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
-export function PublishPost() {
+export function PublishPost({update, setUpdate}) {
     const { user, apiUrl, authorization } = useContext(UserContext);
     const token = user?.token;
     const userData = user?.userData;
@@ -33,6 +33,7 @@ export function PublishPost() {
                 setButtonContent('Publish');
                 setUrl('');
                 setArticle('');
+                setUpdate(!update);
             }).catch((err) => {
                 alert("Houve um erro ao publicar seu link");
                 setDisabled(false);
