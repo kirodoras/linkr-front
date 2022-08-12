@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { DebounceInput } from 'react-debounce-input';
 import UserFound from "./UserFound";
 import UserContext from "../../contexts/UserContext";
@@ -7,13 +8,14 @@ import axios from "axios";
 
 export default function SearchBar() {
     const { apiUrl, authorization } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
     const [usersFoundList, setUsersFoundList] = useState([]);
 
     useEffect(() => {
         if(search.length >= 3) {
-            const URL = `${apiUrl}/user?username=${search}`;
+            const URL = `${apiUrl}/users?username=${search}`;
             const promise = axios.get(URL, authorization);
             promise.then((response) => {
                 setUsersFoundList(response.data);
@@ -25,13 +27,13 @@ export default function SearchBar() {
         }
     }, [search]);
 
-    function goUserPage() {
-        alert("vai pra pagina do usuario");
+    function goUserPage(id) {
+        navigate(`/user/${id}`)
     }
 
     function loadUsers() {
         return (
-            usersFoundList.map((user, index) => <UserFound key={index} userPicture={user.pictureUrl} username={user.username} goUserPage={goUserPage} />)
+            usersFoundList.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} goUserPage={goUserPage} />)
         );
     }
 
