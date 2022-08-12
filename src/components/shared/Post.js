@@ -1,11 +1,9 @@
 import Styled from "styled-components";
+import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
 
-export function Post({ id, url, article, username, pictureUrl }) {
-    const title = 'Como aplicar o Material UI em um projeto React';
-    const description = 'Hey! I have moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
-    const pictureLink = defaultAvatar;
+export function Post({ id, url, article, username, pictureUrl, title, image, description }) {
 
     function redirectToUrl(url){
          window.location.href = url;
@@ -14,7 +12,7 @@ export function Post({ id, url, article, username, pictureUrl }) {
 
     return (
         <PostStyled>
-            <img src={defaultAvatar} alt="Avatar" />
+            <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={id}/>
             <PostContentStyled>
                 <UsernameStyled>{username}</UsernameStyled>
@@ -23,7 +21,7 @@ export function Post({ id, url, article, username, pictureUrl }) {
                     <TitleStyled>{title}</TitleStyled>
                     <DescriptionStyled>{description}</DescriptionStyled>
                     <UrlStyled>{url}</UrlStyled>
-                    <img src={pictureLink} alt="Url logo" />
+                    <img src={image ? image : defaultImage} alt="Url logo" />
                 </LinkContentStyled>
             </PostContentStyled>
         </PostStyled>

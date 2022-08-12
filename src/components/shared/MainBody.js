@@ -54,6 +54,9 @@ export default function MainBody({ title, isTimeline, route }) {
                             article={value.article}
                             username={value.username}
                             pictureUrl={value.pictureUrl}
+                            title={value.title}
+                            image={value.image}
+                            description={value.description}
                         />)
                     : <span>There are no posts yet</span>
                 }
