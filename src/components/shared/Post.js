@@ -2,6 +2,7 @@ import Styled from "styled-components";
 import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
 import ReactHashtag from "@mdnm/react-hashtag";
+import Hashtag from "../pages/Hashtag";
 export function Post({url, article, username, pictureUrl}) {
     const title = 'Como aplicar o Material UI em um projeto React';
     const description = 'Hey! I have #moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
@@ -24,7 +25,7 @@ export function Post({url, article, username, pictureUrl}) {
                     
                    
                     <TextStyle>
-                        <ReactHashtag renderHashtag={(hasht)=><Link to={`/hashtag/${hasht.substr(1)}`}><Hashtag>{hasht}</Hashtag></Link>}>
+                        <ReactHashtag renderHashtag={(hasht)=><Hashtag hashtag_name={hasht}/>}>
                             {description}
                         </ReactHashtag>
                     </TextStyle>
@@ -103,7 +104,7 @@ const LinkContentStyled = Styled.a`
         }
     }
 `;
- const Hashtag = Styled.span`
+ const HashtagStyle = Styled.span`
   color: white;
   font-size: 22px;
   font-weight: bold
