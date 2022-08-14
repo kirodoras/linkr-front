@@ -12,13 +12,13 @@ export default function Timeline() {
     const [listHashtags,setListHashtags] = useState([])
 
     useEffect(() => {
-        const URL = `http://localhost:4001/timeline`;
+        const URL = `http://localhost:4000/timeline`;
         const promise = axios.get(URL);
         
         promise.then((response) => {
             let posts = response.data;
             console.log(posts)
-            if(hashtag){
+            if(hashtag!=null){
                 posts = posts.filter(item=>{return item.article.indexOf(`#${hashtag}`)>0})
                 console.log(posts)
             }
@@ -27,7 +27,7 @@ export default function Timeline() {
 
             
         }).catch((err) => {
-            console.log(err);
+            return err
         });
     }, []);
 

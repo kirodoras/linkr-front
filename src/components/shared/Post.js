@@ -1,28 +1,21 @@
 import Styled from "styled-components";
-import React from 'react'
-import { Link } from "react-router-dom";
+import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
+import { Heart } from "./Heart";
+import { useNavigate } from "react-router-dom";
 import ReactHashtag from "@mdnm/react-hashtag";
-import Hashtag from "../pages/Hashtag";
-export function Post({url, article, username, pictureUrl}) {
-    const title = 'Como aplicar o Material UI em um projeto React';
-    const description = 'Hey! I have #moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
-    const pictureLink = defaultAvatar;
-   
 
-    function redirectToUrl(url){
-         window.location.href = url;
-         return null;
-    }
-//                    <DescriptionStyled>{description}</DescriptionStyled>
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+    const navigate = useNavigate();
 
     return (
-        <PublishPostStyled>
-            <img src={defaultAvatar} alt="Avatar" />
+        <PostStyled>
+            <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
+            <Heart id={postId} />
             <PostContentStyled>
-                <UsernameStyled>{username}</UsernameStyled>
+                <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
                 <ArticleStyled>{article}</ArticleStyled>
-                <LinkContentStyled onClick={() => redirectToUrl(url)}>
+                <LinkContentStyled href={url} target="_blank">
                     <TitleStyled>{title}</TitleStyled>
                     
                    
@@ -32,15 +25,15 @@ export function Post({url, article, username, pictureUrl}) {
                         </ReactHashtag>
                     </TextStyle>
                     <UrlStyled>{url}</UrlStyled>
-                    <img src={pictureLink} alt="Url logo" />
+                    <img src={image ? image : defaultImage} alt="Url logo" />
                 </LinkContentStyled>
             </PostContentStyled>
-           
-        </PublishPostStyled>
+        </PostStyled>
     );
 }
 
-const PublishPostStyled = Styled.div`
+const PostStyled = Styled.div`
+    position: relative;
     width: 100%;
     height: 17.25rem;
 
@@ -58,6 +51,11 @@ const PublishPostStyled = Styled.div`
         width: 3.125rem;
         height: 3.125rem;
         border-radius: 50%;
+    }
+
+    @media(max-width: 1100px) {
+        margin-top: 1rem;
+        border-radius: 0;
     }
 `;
 

@@ -8,17 +8,18 @@ import Trending from '../pages/Trending.js'
 import Timeline from '../pages/Timeline.js'
 import { AiOutlineSearch } from 'react-icons/ai';
 import Swal from 'sweetalert2' //biblioteca que estiliza alerta
+import TimelinePage from '../pages/TimelinePage.js'
 
 export default function Home() {
     const {hashtag} = useParams()
     const [trendingList,setTrendingList] = React.useState([])
 
     React.useEffect(() => {
-        const promise = axios.get('http://localhost:4001/hashtag/trending');
+        const promise = axios.get('http://localhost:4000/hashtag/trending');
 
         promise.then(response => {
             let hashtags = response.data;
-            setTrendingList(hashtags);
+            setTrendingList([...hashtags]);
             console.log(trendingList)
         }).catch(error => {
             Swal.fire({

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import Styled from "styled-components";
 import defaultAvatar from '../../assets/default-avatar.png';
-import { ThreeDots } from 'react-loader-spinner';
 import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
-export function PublishPost() {
-    const { user } = useContext(UserContext);
+export function PublishPost({ update, setUpdate }) {
+    const { user, apiUrl, authorization } = useContext(UserContext);
     const token = user?.token;
     const userData = user?.userData;
 
@@ -22,8 +21,8 @@ export function PublishPost() {
             setDisabled(true);
             setButtonContent('Publishing...');
 
-            const URL = `http://localhost:4001/timeline`;
-            const AUT = { headers: { Authorization: `Bearer ${token}` } };
+            const URL = `${apiUrl}/timeline`;
+            const AUT = authorization;
             const BODY = { url, article };
 
             const promise = axios.post(URL, BODY, AUT);
@@ -34,6 +33,7 @@ export function PublishPost() {
                 setButtonContent('Publish');
                 setUrl('');
                 setArticle('');
+                setUpdate(!update);
             }).catch((err) => {
                 alert("Houve um erro ao publicar seu link");
                 setDisabled(false);
@@ -114,8 +114,15 @@ const FormStyled = Styled.form`
         background: #EFEFEF;
         border-radius: 0.3125rem;
         height: 1.875rem;
-        color: #949494;
+        color: #151515;
+        font-weight: 300;
+        font-size: 15px;
+        line-height: 18px;
         padding-left: 0.8125rem;
+
+        &::placeholder {
+            color: #949494
+        }
     }
 
     &>textarea:active, &>textarea:focus {
@@ -126,11 +133,18 @@ const FormStyled = Styled.form`
         background: #EFEFEF;
         border-radius: 0.3125rem;
         height: 4.125rem;
-        color: #949494;
+        font-weight: 300;
+        font-size: 15px;
+        line-height: 18px;
+        color: #151515;
         resize: none;
         outline: none;
         padding: 0.3125rem 0.8125rem 0 0.8125rem;
         word-wrap: break-word;
+
+        &::placeholder {
+            color: #949494
+        }
     }
 
     &>button {
@@ -141,6 +155,9 @@ const FormStyled = Styled.form`
         height: 1.9375rem;
         background: #1877F2;
         border-radius: 0.3125rem;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
         color: #FFFFFF;
         align-self: end;
     }

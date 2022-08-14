@@ -6,7 +6,7 @@ import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function Login() {
-    const { setUser } = useContext(UserContext);
+    const { user, setUser, apiUrl } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ export default function Login() {
 
         setLoading(true);
 
-        if(!email || !password) {
+        if (!email || !password) {
             alert("todos os campos precisam ser preenchidos");
             setLoading(false);
         } else {
@@ -28,12 +28,13 @@ export default function Login() {
                 email,
                 password
             }
-    
-            const promise = axios.post("http://localhost:4001/", body);
-    
+
+            const promise = axios.post(`${apiUrl}/`, body);
+
             promise
                 .then(res => {
                     setUser(res.data);
+                    localStorage.setItem("userData", JSON.stringify(res.data));
                     navigate("/timeline");
                 }).catch((err) => {
                     console.log(err.response);
@@ -63,6 +64,14 @@ export default function Login() {
         }
     }
 
+    /* function timelineOrLogin() {
+        console.log("entrei");
+        if (Object.keys(user).length !== 0) {
+            navigate("/timeline");
+        }
+    } */
+
+    // timelineOrLogin();
     const loginForm = createForm();
 
     return (

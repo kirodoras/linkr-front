@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import styled from "styled-components";
-export default function Hashtag({hashtag_name,hashtagList}) {
-  console.log(hashtagList)
+export default function Hashtag({hashtag_name}) {
   
   return (
     <>
