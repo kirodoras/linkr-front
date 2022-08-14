@@ -6,10 +6,13 @@ import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner';
 import styled from "styled-components";
+import DeleteModal from "./DeleteModal";
+import deleteModalContext from '../../contexts/deleteModalContext';
 
 export default function MainBody({ title, isTimeline, route }) {
 
     const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
+    const { deleteModal } = useContext(deleteModalContext);
 
     const [update, setUpdate] = useState(false);
 
@@ -35,7 +38,7 @@ export default function MainBody({ title, isTimeline, route }) {
             setLoading(null);
         });
     }, [update, apiUrl, authorization, route]);
-    
+
 
     function showPublishPost() {
         if (isTimeline) {
@@ -97,6 +100,7 @@ export default function MainBody({ title, isTimeline, route }) {
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
+            {deleteModal.status ? <DeleteModal updatePosts={() => setUpdate(!update)} /> : <></>}
             <Header />
             <TimelineStyled>
                 <h1>
