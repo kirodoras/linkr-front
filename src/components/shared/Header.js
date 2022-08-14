@@ -4,7 +4,7 @@ import { IoChevronDown } from "react-icons/io5";
 import logo from '../../assets/linkr-logo.svg';
 import defaultAvatar from '../../assets/default-avatar.png';
 
-export function Header() {
+export default function Header() {
     const userPicture = '';
 
     return (
@@ -21,7 +21,7 @@ export function Header() {
 const HeaderStyled = Styled.header`
     width: 100%;
     height: 4.5rem;
-
+    margin-bottom:30%;
     display: flex;
     align-items: center;
     justify-content: space-between;

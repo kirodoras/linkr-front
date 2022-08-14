@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Styled from "styled-components";
-import { Header } from "../shared/Header";
+import  Header  from "../shared/Header.js";
 import { PublishPost } from "../shared/PublishPost";
 import { Post } from "../shared/Post";
 import { useParams } from "react-router-dom";
@@ -14,10 +14,13 @@ export default function Timeline() {
     useEffect(() => {
         const URL = `http://localhost:4001/timeline`;
         const promise = axios.get(URL);
+        
         promise.then((response) => {
             let posts = response.data;
+            console.log(posts)
             if(hashtag){
-                posts = posts.filter(item=>{return item.description.indexOf(`#${hashtag}`)>0})
+                posts = posts.filter(item=>{return item.article.indexOf(`#${hashtag}`)>0})
+                console.log(posts)
             }
             
                 setPostsArray(posts);
@@ -32,10 +35,10 @@ export default function Timeline() {
         <>
             <Header />
             <TimelineStyled>
-                <h1>
-                    timeline
-                </h1>
-                <PublishPost />
+               {
+                   hashtag? "" :  < PublishPost />
+               }
+               
                 {postsArray.length ?
                     postsArray.map((value) =>
                         <Post

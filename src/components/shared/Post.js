@@ -1,4 +1,5 @@
 import Styled from "styled-components";
+import React from 'react'
 import { Link } from "react-router-dom";
 import defaultAvatar from '../../assets/default-avatar.png';
 import ReactHashtag from "@mdnm/react-hashtag";
@@ -7,6 +8,7 @@ export function Post({url, article, username, pictureUrl}) {
     const title = 'Como aplicar o Material UI em um projeto React';
     const description = 'Hey! I have #moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page. I hope you enjoy it!';
     const pictureLink = defaultAvatar;
+   
 
     function redirectToUrl(url){
          window.location.href = url;
@@ -25,7 +27,7 @@ export function Post({url, article, username, pictureUrl}) {
                     
                    
                     <TextStyle>
-                        <ReactHashtag renderHashtag={(hasht)=><Hashtag hashtag_name={hasht}/>}>
+                        <ReactHashtag renderHashtag={(hasht)=><Hashtag hashtag_name={hasht} />}>
                             {description}
                         </ReactHashtag>
                     </TextStyle>
@@ -33,6 +35,7 @@ export function Post({url, article, username, pictureUrl}) {
                     <img src={pictureLink} alt="Url logo" />
                 </LinkContentStyled>
             </PostContentStyled>
+           
         </PublishPostStyled>
     );
 }

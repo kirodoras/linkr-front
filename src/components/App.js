@@ -5,6 +5,7 @@ import UserContext from "../contexts/UserContext";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Timeline from "./pages/Timeline";
+import Home from './shared/home.js'
 
 export default function App() {
 
@@ -18,8 +19,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/sign-up" element={<SignUpPage />} />
-                    <Route path="/timeline" element={<Timeline />} />
-                    <Route path="/hashtag/:hashtag" element={<Timeline/>} />
+                    <Route path="/timeline" element={<Home />} />
+                    <Route path="/hashtag/:hashtag" element={<Home/>} />
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
