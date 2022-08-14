@@ -3,14 +3,21 @@ import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
+import { useContext } from "react";
+import { Trash } from "./Trash";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+    const { user } = useContext(UserContext);
+    const { userData } = user;
+    
     const navigate = useNavigate();
 
     return (
         <PostStyled>
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={postId} />
+            {userData.id === userId ? <Trash id={postId} /> : <></>}
             <PostContentStyled>
                 <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
                 <ArticleStyled>{article}</ArticleStyled>
