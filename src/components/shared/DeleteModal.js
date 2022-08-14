@@ -1,17 +1,51 @@
 import styled from 'styled-components';
 import deleteModalContext from '../../contexts/deleteModalContext';
-import { useContext } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import axios from "axios";
+import { ThreeDots } from 'react-loader-spinner';
 
-export default function DeleteModal() {
-    const { setDeleteModal } = useContext(deleteModalContext);
+export default function DeleteModal({ updatePosts }) {
+    const { deleteModal, setDeleteModal } = useContext(deleteModalContext);
+    const postId = deleteModal.postId;
+
+    const { apiUrl, authorization } = useContext(UserContext);
+
+    const [disabled, setDisabled] = useState(false);
+    const [buttonContent, setButtonContent] = useState("Yes, delete it");
+
+    function deletePost(id) {
+        setDisabled(true);
+        setButtonContent(<ThreeDots height={70} width={70} color="#FFFFFF" />);
+        const URL = `${apiUrl}/timeline/${id}`;
+        const AUT = authorization;
+        const promise = axios.delete(URL, AUT);
+        promise.then((response) => {
+            setDeleteModal({ status: false, postId: false });
+            updatePosts();
+        }).catch((err) => {
+            setDeleteModal({ status: false, postId: false });
+            alert("Erro ao deletar post");
+        });
+    }
 
     return (
         <DeleteModalStyled>
             <ModalContentStyled>
                 <h1>Are you sure you want to delete this post?</h1>
                 <div>
-                    <button className='no' onClick={() => setDeleteModal({status: false, postId: false})}>No, go back</button>
-                    <button className='yes'> Yes, delete it</button>
+                    <button
+                        disabled={disabled}
+                        className='no'
+                        onClick={() => setDeleteModal({ status: false, postId: false })}>
+                        No, go back
+                    </button>
+                    <button
+                        disabled={disabled}
+                        className='yes'
+                        onClick={() => deletePost(postId)}>
+                        {buttonContent}
+                    </button>
                 </div>
             </ModalContentStyled>
         </DeleteModalStyled>
@@ -83,8 +117,15 @@ const ModalContentStyled = styled.div`
     }
 
     .yes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background: #1877F2;
         color: #FFFFFF;
+    }
+
+    svg {
+        margin-top: -2rem;
     }
 
     @media(max-width: 68.75rem) {

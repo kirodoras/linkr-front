@@ -38,7 +38,7 @@ export default function MainBody({ title, isTimeline, route }) {
             setLoading(null);
         });
     }, [update, apiUrl, authorization, route]);
-    
+
 
     function showPublishPost() {
         if (isTimeline) {
@@ -100,7 +100,7 @@ export default function MainBody({ title, isTimeline, route }) {
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
-            {deleteModal.status ? <DeleteModal /> : <></>}
+            {deleteModal.status ? <DeleteModal updatePosts={() => setUpdate(!update)} /> : <></>}
             <Header />
             <TimelineStyled>
                 <h1>
