@@ -6,10 +6,13 @@ import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner';
 import styled from "styled-components";
+import DeleteModal from "./DeleteModal";
+import deleteModalContext from '../../contexts/deleteModalContext';
 
 export default function MainBody({ title, isTimeline, route }) {
 
     const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
+    const { deleteModal } = useContext(deleteModalContext);
 
     const [update, setUpdate] = useState(false);
 
@@ -97,6 +100,7 @@ export default function MainBody({ title, isTimeline, route }) {
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
+            {deleteModal.status ? <DeleteModal /> : <></>}
             <Header />
             <TimelineStyled>
                 <h1>

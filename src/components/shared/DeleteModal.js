@@ -1,12 +1,16 @@
 import styled from 'styled-components';
+import deleteModalContext from '../../contexts/deleteModalContext';
+import { useContext } from "react";
 
 export default function DeleteModal() {
+    const { setDeleteModal } = useContext(deleteModalContext);
+
     return (
         <DeleteModalStyled>
             <ModalContentStyled>
                 <h1>Are you sure you want to delete this post?</h1>
                 <div>
-                    <button className='no'>No, go back</button>
+                    <button className='no' onClick={() => setDeleteModal({status: false, postId: false})}>No, go back</button>
                     <button className='yes'> Yes, delete it</button>
                 </div>
             </ModalContentStyled>
@@ -25,7 +29,7 @@ const DeleteModalStyled = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 15;
 
     background: rgba(255, 255, 255, 0.8);
 `;

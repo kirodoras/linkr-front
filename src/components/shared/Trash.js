@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { IoTrash } from "react-icons/io5";
+import { useContext } from "react";
+import deleteModalContext from '../../contexts/deleteModalContext';
 
 export function Trash({ id }) {
+
+    const { setDeleteModal } = useContext(deleteModalContext);
+
     return (
         <TrashStyled>
-            <IoTrash />
+            <IoTrash onClick={() => setDeleteModal({status: true, postId: id})}/>
         </TrashStyled>
     );
 }
