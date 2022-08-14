@@ -4,23 +4,89 @@ import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
 import { Trash } from "./Trash";
+import { IoTrash, IoPencil } from "react-icons/io5";
+import deleteModalContext from '../../contexts/deleteModalContext';
+import axios from "axios";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
-    const { user } = useContext(UserContext);
-    const { userData } = user;
-    
+    const { user, apiUrl, authorization } = useContext(UserContext);
+    const { setDeleteModal, editMode, setEditMode } = useContext(deleteModalContext);
+
+    const token = user?.token;
+    const userData = user?.userData;
+
+    const [articleEdit, setArticleEdit] = useState('texto escrito já');
+    const [disabled, setDisabled] = useState(false);
+
     const navigate = useNavigate();
+
+    function updateArticle(id) {
+        setDisabled(true);
+        const URL = `${apiUrl}/timeline/${id}`;
+        const AUT = authorization;
+        const promise = axios.delete(URL, AUT);
+        promise.then((response) => {
+            setDisabled(false);
+            setEditMode(false);
+        }).catch((err) => {
+            setDisabled(false);
+            alert("Não foi possível salvar as alterações");
+        });
+    }
+
+    function createEditAndDelete() {
+        if (userData.id === userId) {
+            return (
+                <EditDelete>
+                    <IoPencil onClick={() => setEditMode(!editMode)} />
+                    <IoTrash onClick={() => setDeleteModal({ status: true, postId: postId })} />
+                </EditDelete>
+            );
+        } else {
+            return (<></>);
+        }
+    }
+
+    function cancelOrSave(e) {
+        if (e.keyCode === 27) {
+            setEditMode(false);
+        } else if (e.keyCode === 13) {
+            updateArticle();
+        }     
+    }
+
+    function createPost() {
+        if (!editMode) {
+            return (
+                <ArticleStyled>{article}</ArticleStyled>
+            );
+        } else {
+            return (
+                <Edit>
+                    <textarea onKeyDown={cancelOrSave} className='article'
+                    disabled={disabled}
+                    type='text'
+                    placeholder=''
+                    value={articleEdit}
+                    onChange={(e) => setArticleEdit(e.target.value)} />
+                </Edit>
+            );
+        }
+    }
+
+    const editAndDelete = createEditAndDelete();
+    const articleText = createPost();
 
     return (
         <PostStyled>
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={postId} />
-            {userData.id === userId ? <Trash id={postId} /> : <></>}
+            {editAndDelete}
             <PostContentStyled>
                 <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
-                <ArticleStyled>{article}</ArticleStyled>
+                {articleText}
                 <LinkContentStyled href={url} target="_blank">
                     <TitleStyled>{title}</TitleStyled>
                     <DescriptionStyled>{description}</DescriptionStyled>
@@ -31,6 +97,51 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         </PostStyled>
     );
 }
+
+const Edit = Styled.div`
+    margin: 10px 0 -10px 0;
+    width: 100%;
+
+    &>textarea {
+        background: #FFFFFF;
+        border-radius: 0.3125rem;
+        height: 70px;
+        width: 100%;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #4C4C4C;
+        resize: none;
+        outline: none;
+        padding: 0.3125rem 0.8125rem 0 0.8125rem;
+        word-wrap: break-word;
+
+        &::placeholder {
+            color: #949494
+        }
+
+        &:disabled {
+        background-color: #F2F2F2;
+        color: #AFAFAF;
+        }
+    }
+
+    @media(max-width: 1100px) {
+        font-size: 15px;
+        line-height: 18px;
+    }
+`
+
+const EditDelete = Styled.div`
+    position: absolute;
+    top: -0.6875rem;
+    right: 1.25rem;
+    svg {
+        color: white;
+        font-size: 1.6rem;
+        margin-left: 10px;
+    }
+`
 
 const PostStyled = Styled.div`
     position: relative;

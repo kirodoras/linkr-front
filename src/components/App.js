@@ -15,6 +15,7 @@ export default function App() {
     const [user, setUser] = useState(getUser);
     const [showLogout, setShowLogout] = useState(false);
     const [deleteModal, setDeleteModal] = useState({status: false, postId: false});
+    const [editMode, setEditMode] = useState(false);
 
     function getUser() {
         const userData = localStorage.getItem("userData");
@@ -31,7 +32,7 @@ export default function App() {
     }
 
     const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization };
-    const deleteModalContextValue = { deleteModal, setDeleteModal };
+    const deleteModalContextValue = { deleteModal, setDeleteModal, editMode, setEditMode };
     return (
         <UserContext.Provider value={contextValue}>
             <DeleteModalContext.Provider value={deleteModalContextValue}>
