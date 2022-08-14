@@ -22,8 +22,6 @@ export default function App() {
         return {};
     }
 
-    // console.log(localStorage.getItem("userData"));
-
     const authorization = {
         headers: {
             Authorization: `Bearer ${user.token}`
