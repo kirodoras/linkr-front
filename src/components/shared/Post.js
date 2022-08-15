@@ -231,6 +231,7 @@ const LinkContentStyled = Styled.a`
 `;
 
 const UsernameStyled = Styled.span`
+    width: fit-content;
     font-weight: 400;
     font-size: 19px;
     line-height: 23px;

@@ -75,15 +75,19 @@ export function Heart({ id }) {
         setLoading(true);
         if (!clicked) {
             axios.post(`${apiUrl}/like`, BODY, AUT)
-                .then((res) =>
-                    setClicked(true)
+                .then((res) => {
+                    setClicked(true);
+                    setUpdate(!update);
+                }
                 ).catch(err => {
                     console.log(err)
                 })
         } else {
             axios.delete(`${apiUrl}/like?userId=${userId}&postId=${postId}`, [], AUT)
-                .then((res) =>
+                .then((res) => {
                     setClicked(false)
+                    setUpdate(!update);
+                }
                 )
         }
 
@@ -91,12 +95,13 @@ export function Heart({ id }) {
             .then((res) => {
                 setLikes(res.data);
                 populateTooTip(res.data);
+                setUpdate(!update);
             }
             ).catch(err =>
                 console.log(err)
             );
         setLoading(false);
-        setUpdate(!update);
+        
     }
 
     return (

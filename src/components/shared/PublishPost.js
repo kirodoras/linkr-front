@@ -160,6 +160,10 @@ const FormStyled = Styled.form`
         line-height: 17px;
         color: #FFFFFF;
         align-self: end;
+
+        &:disabled {
+            opacity: 0.7;
+        }
     }
 
     @media(max-width: 68.75rem) {
