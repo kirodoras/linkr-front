@@ -9,8 +9,8 @@ import TimelinePage from "./pages/TimelinePage";
 import UserPage from "./pages/UserPage";
 
 export default function App() {
-    const apiUrl = "http://localhost:4000";
-    //const apiUrl = "https://linkr-32.herokuapp.com"
+    // const apiUrl = "http://localhost:4000";
+    const apiUrl = "https://linkr-social.herokuapp.com"
 
     const [user, setUser] = useState(getUser);
     const [showLogout, setShowLogout] = useState(false);
