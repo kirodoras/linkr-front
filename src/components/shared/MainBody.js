@@ -23,7 +23,6 @@ export default function MainBody({ title, isTimeline, route }) {
 
     useEffect(() => {
         const URL = `${apiUrl}/${route}`;
-        console.log(route);
         const promise = axios.get(URL, authorization);
         promise.then((response) => {
             setPostsArray(response.data);
@@ -131,14 +130,15 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background-color: #333333;
 `
 
 const TimelineStyled = styled.div`
     width: 38.1875rem;
     max-width: 100%;
-    margin-top: 10rem;
+    padding-top: 10rem;
     overflow: hidden;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -171,9 +171,9 @@ const TimelineStyled = styled.div`
     }
 
     @media(max-width: 68.75rem) {
+        margin-top: 1rem;
         &>h1 {
             margin-left: 1rem;
         }
-        margin-top: 5.6875rem;
     }
 `;

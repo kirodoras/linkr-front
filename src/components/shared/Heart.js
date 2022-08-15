@@ -66,8 +66,6 @@ export function Heart({ id }) {
         });
     }, [update, user, apiUrl, id, populateTooTip]);
 
-    console.log(likes); 
-
     function click() {
         const userId = user?.userData.id;
         const postId = id;

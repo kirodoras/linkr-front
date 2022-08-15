@@ -64,14 +64,6 @@ export default function Login() {
         }
     }
 
-    /* function timelineOrLogin() {
-        console.log("entrei");
-        if (Object.keys(user).length !== 0) {
-            navigate("/timeline");
-        }
-    } */
-
-    // timelineOrLogin();
     const loginForm = createForm();
 
     return (

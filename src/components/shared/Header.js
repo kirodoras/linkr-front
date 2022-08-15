@@ -45,33 +45,68 @@ export function Header() {
     }
 
     function createSearchBarDesktop() {
-        if(window.innerWidth > 1100) {
-            return (
-                <ContainerSearchBar>
-                    <SearchBar />
-                </ContainerSearchBar>
-            );
-        } else {
-            return(<></>);
-        }
+        return (
+            <ContainerSearchBarDesktop>
+                <SearchBar />
+            </ContainerSearchBarDesktop>
+        );
+    }
+
+    function createSearchBarMobile() {
+        return (
+            <ContainerSearchBarMobile>
+                <SearchBar />
+            </ContainerSearchBarMobile>
+        );
     }
 
     const dropdown = createDropdown();
     const searchBarDesktop = createSearchBarDesktop();
+    const searchBarMobile = createSearchBarMobile();
 
     return (
-        <HeaderStyled>
-            <img src={logo} alt="Logo Linkr" />
-            {searchBarDesktop}
-            <Dropdown>
-                {dropdown}
-            </Dropdown>
-        </HeaderStyled>
+        <Container>
+            <HeaderStyled>
+                <img src={logo} alt="Logo Linkr" />
+                {searchBarDesktop}
+                <Dropdown>
+                    {dropdown}
+                </Dropdown>
+            </HeaderStyled>
+            {searchBarMobile}
+        </Container>
     );
 }
 
-const ContainerSearchBar = styled.div`
-    width: 40%;
+const Container = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+`
+
+const ContainerSearchBarDesktop = styled.div`
+    width: 500px;
+
+    @media(max-width: 800px) {
+        display: none;
+    }
+`
+
+const ContainerSearchBarMobile = styled.div`
+    position: absolute;
+    top: 72px;
+    display: none;
+    z-index: 1;
+
+    @media(max-width: 800px) {
+        width: 100%;
+        display: block;
+        padding: 0 10px;
+        height: 80px;
+        background-color: #333333;
+    }
+
 `
 
 const HeaderStyled = styled.header`
