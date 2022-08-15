@@ -13,6 +13,7 @@ export default function App() {
     //const apiUrl = "https://linkr-32.herokuapp.com"
 
     const [user, setUser] = useState(getUser);
+    const [postsArray, setPostsArray] = useState([]);
     const [showLogout, setShowLogout] = useState(false);
     const [deleteModal, setDeleteModal] = useState({status: false, postId: false});
 
@@ -24,15 +25,13 @@ export default function App() {
         return {};
     }
 
-    // console.log(localStorage.getItem("userData"));
-
     const authorization = {
         headers: {
             Authorization: `Bearer ${user.token}`
         }
     }
 
-    const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization };
+    const contextValue = { user, setUser, postsArray, setPostsArray, showLogout, setShowLogout, apiUrl, authorization };
     const deleteModalContextValue = { deleteModal, setDeleteModal };
     return (
         <UserContext.Provider value={contextValue}>
