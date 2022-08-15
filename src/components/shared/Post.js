@@ -4,32 +4,39 @@ import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
-import { useContext, useState, useRef } from "react";
-import { Trash } from "./Trash";
+import { useContext, useState, useRef, useEffect } from "react";
 import { IoTrash, IoPencil } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 
-export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
-    const { user, apiUrl, authorization } = useContext(UserContext);
-    const { setDeleteModal, editMode, setEditMode } = useContext(deleteModalContext);
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description, updatePosts }) {
+    const { user, apiUrl, authorization, postsArray } = useContext(UserContext);
+    const { setDeleteModal } = useContext(deleteModalContext);
 
     const token = user?.token;
     const userData = user?.userData;
+    const articlePost = postsArray.find((post) => post.postId === postId).article
 
-    const [articleEdit, setArticleEdit] = useState('texto escrito já');
+    const [articleEdit, setArticleEdit] = useState(articlePost);
     const [disabled, setDisabled] = useState(false);
+    const [editMode, setEditMode] = useState(false);
 
     const navigate = useNavigate();
 
-    function updateArticle(id) {
+    useEffect(() => {
+        setArticleEdit(articlePost);
+    }, [editMode]);
+
+    function updateArticle(postId) {
         setDisabled(true);
-        const URL = `${apiUrl}/timeline/${id}`;
+        const URL = `${apiUrl}/timeline/${postId}`;
         const AUT = authorization;
-        const promise = axios.delete(URL, AUT);
+        const BODY = { newArticle: articleEdit };
+        const promise = axios.put(URL, BODY, AUT);
         promise.then((response) => {
             setDisabled(false);
             setEditMode(false);
+            updatePosts();
         }).catch((err) => {
             setDisabled(false);
             alert("Não foi possível salvar as alterações");
@@ -53,16 +60,12 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         if (e.keyCode === 27) {
             setEditMode(false);
         } else if (e.keyCode === 13) {
-            updateArticle();
+            updateArticle(postId);
         }     
     }
 
     function createPost() {
-        if (!editMode) {
-            return (
-                <ArticleStyled>{article}</ArticleStyled>
-            );
-        } else {
+        if (editMode) {
             return (
                 <Edit>
                     <textarea onKeyDown={cancelOrSave} className='article'
@@ -72,6 +75,10 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                     value={articleEdit}
                     onChange={(e) => setArticleEdit(e.target.value)} />
                 </Edit>
+            );
+        } else {
+            return (
+                <ArticleStyled>{article}</ArticleStyled>
             );
         }
     }

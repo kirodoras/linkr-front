@@ -11,7 +11,7 @@ import deleteModalContext from '../../contexts/deleteModalContext';
 
 export default function MainBody({ title, isTimeline, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, postsArray, setPostsArray } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
 
     const [update, setUpdate] = useState(false);
@@ -21,9 +21,6 @@ export default function MainBody({ title, isTimeline, route }) {
             color="#FFFFFF"
             width={70}
         />);
-
-    const [postsArray, setPostsArray] = useState([]);
-    const [usersData, setUsersData] = useState([]);
 
     useEffect(() => {
         //acho que seria legal esse get ser autenticado
@@ -68,6 +65,7 @@ export default function MainBody({ title, isTimeline, route }) {
                             title={value.title}
                             image={value.image}
                             description={value.description}
+                            updatePosts={() => setUpdate(!update)}
                         />)}
                 </>
             );
