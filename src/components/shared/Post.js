@@ -9,23 +9,28 @@ import { IoTrash, IoPencil } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 
-export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description, updatePosts }) {
-    const { user, apiUrl, authorization, postsArray } = useContext(UserContext);
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+    const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const { setDeleteModal } = useContext(deleteModalContext);
 
     const token = user?.token;
     const userData = user?.userData;
-    const articlePost = postsArray.find((post) => post.postId === postId).article
 
-    const [articleEdit, setArticleEdit] = useState(articlePost);
+    const [articleEdit, setArticleEdit] = useState(article);
     const [disabled, setDisabled] = useState(false);
     const [editMode, setEditMode] = useState(false);
+
+    const textareaRef = useRef(null);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        setArticleEdit(articlePost);
-    }, [editMode]);
+        setArticleEdit(article);
+
+        if(editMode) {
+            textareaRef.current.focus();
+        }
+    }, [editMode, article]);
 
     function updateArticle(postId) {
         setDisabled(true);
@@ -36,7 +41,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         promise.then((response) => {
             setDisabled(false);
             setEditMode(false);
-            updatePosts();
+            setUpdate(!update);
         }).catch((err) => {
             setDisabled(false);
             alert("Não foi possível salvar as alterações");
@@ -73,7 +78,8 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                     type='text'
                     placeholder=''
                     value={articleEdit}
-                    onChange={(e) => setArticleEdit(e.target.value)} />
+                    onChange={(e) => setArticleEdit(e.target.value)} 
+                    ref={textareaRef} />
                 </Edit>
             );
         } else {

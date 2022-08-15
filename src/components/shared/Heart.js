@@ -9,7 +9,7 @@ export function Heart({ id }) {
     const [clicked, setClicked] = useState(false);
     const [likes, setLikes] = useState();
     const [loading, setLoading] = useState(false);
-    const { user, apiUrl, authorization } = useContext(UserContext);
+    const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const [toolTip, setToolTip] = useState();
 
     const populateTooTip = useCallback((data) => {
@@ -96,7 +96,7 @@ export function Heart({ id }) {
                 console.log(err)
             );
         setLoading(false);
-        // window.location.reload();
+        setUpdate(!update);
     }
 
     return (

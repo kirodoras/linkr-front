@@ -11,10 +11,9 @@ import deleteModalContext from '../../contexts/deleteModalContext';
 
 export default function MainBody({ title, isTimeline, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization, postsArray, setPostsArray } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
-
-    const [update, setUpdate] = useState(false);
+    const [postsArray, setPostsArray] = useState([]);
 
     const [loading, setLoading] = useState(
         <TailSpin
@@ -23,10 +22,9 @@ export default function MainBody({ title, isTimeline, route }) {
         />);
 
     useEffect(() => {
-        //acho que seria legal esse get ser autenticado
         const URL = `${apiUrl}/${route}`;
         console.log(route);
-        const promise = axios.get(URL);
+        const promise = axios.get(URL, authorization);
         promise.then((response) => {
             setPostsArray(response.data);
             setLoading(null);
@@ -34,7 +32,7 @@ export default function MainBody({ title, isTimeline, route }) {
             console.log(err);
             setLoading(null);
         });
-    }, [update, apiUrl, authorization, route]);
+    }, [update, apiUrl, authorization, route, setPostsArray]);
 
 
     function showPublishPost() {
@@ -65,7 +63,6 @@ export default function MainBody({ title, isTimeline, route }) {
                             title={value.title}
                             image={value.image}
                             description={value.description}
-                            updatePosts={() => setUpdate(!update)}
                         />)}
                 </>
             );
@@ -98,7 +95,7 @@ export default function MainBody({ title, isTimeline, route }) {
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
-            {deleteModal.status ? <DeleteModal updatePosts={() => setUpdate(!update)} /> : <></>}
+            {deleteModal.status ? <DeleteModal /> : <></>}
             <Header />
             <TimelineStyled>
                 <h1>

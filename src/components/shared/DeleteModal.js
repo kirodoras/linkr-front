@@ -5,11 +5,11 @@ import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import { ThreeDots } from 'react-loader-spinner';
 
-export default function DeleteModal({ updatePosts }) {
+export default function DeleteModal() {
     const { deleteModal, setDeleteModal } = useContext(deleteModalContext);
     const postId = deleteModal.postId;
 
-    const { apiUrl, authorization } = useContext(UserContext);
+    const { apiUrl, authorization, update, setUpdate } = useContext(UserContext);
 
     const [disabled, setDisabled] = useState(false);
     const [buttonContent, setButtonContent] = useState("Yes, delete it");
@@ -22,7 +22,7 @@ export default function DeleteModal({ updatePosts }) {
         const promise = axios.delete(URL, AUT);
         promise.then((response) => {
             setDeleteModal({ status: false, postId: false });
-            updatePosts();
+            setUpdate(!update);
         }).catch((err) => {
             setDeleteModal({ status: false, postId: false });
             alert("Erro ao deletar post");
