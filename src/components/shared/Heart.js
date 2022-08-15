@@ -64,7 +64,9 @@ export function Heart({ id }) {
         }).catch((err) => {
             console.log(err);
         });
-    }, [user, apiUrl, id, populateTooTip]);
+    }, [update, user, apiUrl, id, populateTooTip]);
+
+    console.log(likes); 
 
     function click() {
         const userId = user?.userData.id;
