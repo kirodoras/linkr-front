@@ -118,7 +118,7 @@ const Title = styled.div`
     }
 
     h2 {
-        width: 460px;
+        width: 480px;
         font-weight: 700;
         font-size: 43px;
         line-height: 64px;
@@ -139,7 +139,7 @@ const Title = styled.div`
         }
 
         h2 {
-            width: 250px;
+            width: 260px;
             font-size: 23px;
             line-height: 34px;
         }

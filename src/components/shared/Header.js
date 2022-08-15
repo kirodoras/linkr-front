@@ -34,8 +34,8 @@ export function Header() {
                 <>
                     <IoChevronUp onClick={() => setShowLogout(!showLogout)} />
                     <img src={userPicture ? userPicture : defaultAvatar} alt="Avatar" onClick={() => setShowLogout(!showLogout)} />
-                    <ul className='dropdown-content'>
-                        <li onClick={logout}>
+                    <ul className='dropdown-content' onClick={logout}>
+                        <li>
                             Logout
                         </li>
                     </ul>
