@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
+import { FollowButton } from "../shared/FollowButton";
 import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner';
@@ -9,9 +10,9 @@ import styled from "styled-components";
 import DeleteModal from "./DeleteModal";
 import deleteModalContext from '../../contexts/deleteModalContext';
 
-export default function MainBody({ title, isTimeline, route }) {
+export default function MainBody({ title, pageName, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
     const [postsArray, setPostsArray] = useState([]);
 
@@ -35,11 +36,23 @@ export default function MainBody({ title, isTimeline, route }) {
 
 
     function showPublishPost() {
-        if (isTimeline) {
+        if (pageName === "timeline") {
             return (
                 <>
-                    <PublishPost update={update} setUpdate={setUpdate} />
+                    <PublishPost />
                 </>
+            );
+        } else {
+            return (<></>)
+        }
+    }
+
+    function createFollowButton() {
+        const userId = Number(route.replace("user/", ""));
+
+        if (pageName === "userPage" && userId !== user.userData.id) {
+            return (
+                <FollowButton userId={userId} />
             );
         } else {
             return (<></>)
@@ -91,15 +104,15 @@ export default function MainBody({ title, isTimeline, route }) {
 
     const publishPost = showPublishPost();
     const userPageTitle = createUserPageTitle();
+    const followButton = createFollowButton();
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
             {deleteModal.status ? <DeleteModal /> : <></>}
             <Header />
             <TimelineStyled>
-                <h1>
-                    {userPageTitle}
-                </h1>
+                <h1>{userPageTitle}</h1>
+                {followButton}
                 {publishPost}
                 {loading ? loading : showPosts()}
             </TimelineStyled>
@@ -138,7 +151,7 @@ const Container = styled.div`
 const TimelineStyled = styled.div`
     width: 38.1875rem;
     max-width: 100%;
-    padding-top: 10rem;
+    padding-top: 132px;
     overflow: hidden;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -146,6 +159,7 @@ const TimelineStyled = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
     ::-webkit-scrollbar {
         width: 0;

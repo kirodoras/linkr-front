@@ -5,8 +5,8 @@ import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
-export function PublishPost({ update, setUpdate }) {
-    const { user, apiUrl, authorization } = useContext(UserContext);
+export function PublishPost() {
+    const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const token = user?.token;
     const userData = user?.userData;
 
