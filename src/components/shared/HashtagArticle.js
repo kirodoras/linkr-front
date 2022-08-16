@@ -1,6 +1,10 @@
 import { ReactTagify } from "react-tagify";
+import { useNavigate } from "react-router-dom";
 
 export function HashtagArticle({ article }) {
+
+    const navigate = useNavigate();
+
     const tagStyle = {
         color: 'white',
         fontWeight: 700,
@@ -13,8 +17,9 @@ export function HashtagArticle({ article }) {
         cursor: 'pointer'
     }
 
-    function tagClicked(event) {
-        console.log(event)
+    function tagClicked(tag) {
+        let hashtag = tag.substring(1);
+        navigate(`/hashtag/${hashtag}`);
     }
 
     return (
