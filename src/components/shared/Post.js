@@ -8,7 +8,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { IoTrash, IoPencil } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
-import { HashtagArticle } from "./HashtagArticle";
+import { HashtagText } from "./HashtagText";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
@@ -86,7 +86,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         } else {
             return (
                 <ArticleStyled>
-                    <HashtagArticle article={article}></HashtagArticle>
+                    <HashtagText article={article}></HashtagText>
                 </ArticleStyled>
             );
         }

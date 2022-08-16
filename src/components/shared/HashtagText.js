@@ -1,7 +1,7 @@
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 
-export function HashtagArticle({ article }) {
+export function HashtagText({ article }) {
 
     const navigate = useNavigate();
 
