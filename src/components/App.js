@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import TimelinePage from "./pages/TimelinePage";
 import UserPage from "./pages/UserPage";
+import HashtagPage from "./pages/HashtagPage";
 
 export default function App() {
     const apiUrl = process.env.REACT_APP_MODE === "production" ? process.env.REACT_APP_API_URL : "http://localhost:4000";
@@ -41,6 +42,7 @@ export default function App() {
                         <Route path="/sign-up" element={<SignUpPage />} />
                         <Route path="/timeline" element={<TimelinePage />} />
                         <Route path="/user/:id" element={<UserPage />} />
+                        <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
                     </Routes>
                 </BrowserRouter>
             </DeleteModalContext.Provider>

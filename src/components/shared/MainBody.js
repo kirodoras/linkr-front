@@ -9,6 +9,7 @@ import { TailSpin } from 'react-loader-spinner';
 import styled from "styled-components";
 import DeleteModal from "./DeleteModal";
 import deleteModalContext from '../../contexts/deleteModalContext';
+import { TrendingHashtags } from "./TrendingHashtags";
 
 export default function MainBody({ title, pageName, route }) {
 
@@ -110,12 +111,15 @@ export default function MainBody({ title, pageName, route }) {
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
             {deleteModal.status ? <DeleteModal /> : <></>}
             <Header />
-            <TimelineStyled>
-                <h1>{userPageTitle}</h1>
+            <main>
+                <TimelineStyled>
+                    <h1>{userPageTitle}</h1>
+                    {publishPost}
+                    {loading ? loading : showPosts()}
+                </TimelineStyled>
+                <TrendingHashtags />
                 {followButton}
-                {publishPost}
-                {loading ? loading : showPosts()}
-            </TimelineStyled>
+            </main>
         </Container>
     );
 }
@@ -146,10 +150,21 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     background-color: #333333;
+
+    main {
+        max-width: fit-content;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 1.5625rem;
+        position: relative;
+    }
 `
 
 const TimelineStyled = styled.div`
     width: 38.1875rem;
+    max-height: 100%;
     max-width: 100%;
     padding-top: 132px;
     overflow: hidden;
@@ -159,7 +174,6 @@ const TimelineStyled = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
 
     ::-webkit-scrollbar {
         width: 0;
