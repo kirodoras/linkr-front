@@ -10,7 +10,7 @@ import UserPage from "./pages/UserPage";
 import HashtagPage from "./pages/HashtagPage";
 
 export default function App() {
-    const apiUrl = process.env.REACT_APP_MODE === "production" ? process.env.REACT_APP_API_URL : "http://localhost:5009";
+    const apiUrl = process.env.REACT_APP_MODE === "production" ? process.env.REACT_APP_API_URL : "http://localhost:4000";
 
     const [user, setUser] = useState(getUser);
     const [showLogout, setShowLogout] = useState(false);

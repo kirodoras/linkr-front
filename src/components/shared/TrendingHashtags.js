@@ -11,7 +11,6 @@ export function TrendingHashtags() {
         const URL = `${apiUrl}/hashtag`;
         const promise = axios.get(URL);
         promise.then((response) => {
-            console.log(response.data);
             setTagsArray(response.data);
         }).catch((err) => {
             console.log(err);
