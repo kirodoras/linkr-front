@@ -14,6 +14,7 @@ export default function App() {
 
     const [user, setUser] = useState(getUser);
     const [followedUsers, setFollowedUsers] = useState([]);
+    const [alreadyFollow, setAlreadyFollow] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
     const [update, setUpdate] = useState(false);
     const [deleteModal, setDeleteModal] = useState({status: false, postId: false});
@@ -32,7 +33,7 @@ export default function App() {
         }
     }
 
-    const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization, update, setUpdate, followedUsers, setFollowedUsers };
+    const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization, update, setUpdate, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow };
     const deleteModalContextValue = { deleteModal, setDeleteModal };
     return (
         <UserContext.Provider value={contextValue}>

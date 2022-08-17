@@ -13,7 +13,7 @@ import { TrendingHashtags } from "./TrendingHashtags";
 
 export default function MainBody({ title, pageName, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
     const [postsArray, setPostsArray] = useState([]);
 
@@ -24,8 +24,22 @@ export default function MainBody({ title, pageName, route }) {
         />);
 
     useEffect(() => {
+        const URL = `${apiUrl}/follow/${user.userData.id}`;
+        const AUT = authorization;
+
+        const promise = axios.get(URL, AUT);
+        promise.then((response) => {
+            setFollowedUsers(response.data)
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [update]);
+
+    useEffect(() => {
         const URL = `${apiUrl}/${route}`;
-        const promise = axios.get(URL, authorization);
+        const AUT = authorization;
+
+        const promise = axios.get(URL, AUT);
         promise.then((response) => {
             setPostsArray(response.data);
             setLoading(null);
@@ -50,10 +64,14 @@ export default function MainBody({ title, pageName, route }) {
 
     function createFollowButton() {
         const userId = Number(route.replace("user/", ""));
-
+        if(followedUsers.length > 0) {
+            setAlreadyFollow(followedUsers.some((user) => user.followedId === userId));
+        } else {
+            setAlreadyFollow(false);
+        }
         if (pageName === "userPage" && userId !== user.userData.id) {
             return (
-                <FollowButton userId={userId} />
+                <FollowButton userId={userId} alreadyFollow={alreadyFollow} setAlreadyFollow={setAlreadyFollow} />
             );
         } else {
             return (<></>)

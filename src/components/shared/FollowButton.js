@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
-export function FollowButton({ userId }) {
+export function FollowButton({ userId, alreadyFollow, setAlreadyFollow}) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
 
     const [disabled, setDisabled] = useState(false);
-    const alreadyFollow = true;
+
+    console.log(alreadyFollow);
 
     function follow() {
         const BODY = { followerId: user.userData.id, followedId: userId }
@@ -21,6 +21,7 @@ export function FollowButton({ userId }) {
         promise.then((response) => {
             setDisabled(false);
             setUpdate(!update);
+            setAlreadyFollow(!alreadyFollow);
         }).catch((err) => {
             alert("Ocorreu um erro ao tentar seguir esse usuário");
             setDisabled(false);
@@ -37,6 +38,7 @@ export function FollowButton({ userId }) {
         promise.then((response) => {
             setDisabled(false);
             setUpdate(!update);
+            setAlreadyFollow(!alreadyFollow);
         }).catch((err) => {
             alert("Ocorreu um erro ao tentar parar de seguir esse usuário");
             setDisabled(false);
