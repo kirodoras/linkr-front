@@ -8,10 +8,9 @@ import axios from "axios";
 
 export default function SearchBar() {
     const { apiUrl, authorization } = useContext(UserContext);
-    const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
-    const [usersFoundList, setUsersFoundList] = useState([]);
+    const [usersfoundlist, setUsersFoundList] = useState([]);
 
     useEffect(() => {
         if(search.length >= 3) {
@@ -29,15 +28,15 @@ export default function SearchBar() {
 
     function loadUsers() {
         return (
-            usersFoundList.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} setSearch={setSearch} />)
+            usersfoundlist.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} setSearch={setSearch} />)
         );
     }
 
     const showUsers = loadUsers();
 
     return (
-        <Container usersFoundList={usersFoundList}>
-            <DebounceInput type="text" placeholder="Search for people" minLength={0} debounceTimeout={300} onChange={(e) => setSearch(e.target.value)} value={search} usersFoundList={usersFoundList} />
+        <Container usersfoundlist={usersfoundlist}>
+            <DebounceInput type="text" placeholder="Search for people" minLength={0} debounceTimeout={300} onChange={(e) => setSearch(e.target.value)} value={search} usersfoundlist={usersfoundlist} />
             {showUsers}
         </Container>
     );
@@ -48,14 +47,14 @@ const Container = styled.div`
     margin-top: 12px;
     background: #E7E7E7;
     border-radius: 8px;
-    padding-bottom: ${props => props.usersFoundList.length > 0 ? "5px" : "0" };
+    padding-bottom: ${props => props.usersfoundlist.length > 0 ? "5px" : "0" };
     
     input {
         width: 100%;
         height: 45px;
         border-radius: 8px;
         padding: 12px 18px;
-        margin-bottom: ${props => props.usersFoundList.length > 0 ? "5px" : "0" };
+        margin-bottom: ${props => props.usersfoundlist.length > 0 ? "5px" : "0" };
 
         font-weight: 400;
         font-size: 19px;

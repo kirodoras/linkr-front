@@ -6,7 +6,7 @@ export default function HashtagPage() {
 
     return (
         <>
-            <MainBody title={`# ${hashtag}`} isTimeline={false} route={`hashtag/${hashtag}`} />
+            <MainBody title={`# ${hashtag}`} pageName={"hashtag"} route={`hashtag/${hashtag}`} />
         </>
     );
 }
