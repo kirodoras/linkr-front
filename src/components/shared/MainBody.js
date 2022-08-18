@@ -97,6 +97,18 @@ export default function MainBody({ title, pageName, route }) {
                         />)}
                 </>
             );
+        } else if (followedUsers.length === 0 && pageName === "timeline"){
+            return (
+                <>
+                    <span>You don't follow anyone yet. Search for new friends!</span>
+                </>
+            );
+        } else if (pageName === "timeline") {
+            return (
+                <>
+                    <span>No posts found from your friends</span>
+                </>
+            );
         } else {
             return (
                 <>
@@ -207,9 +219,10 @@ const TimelineStyled = styled.div`
     }
 
     &>span {
-        margin-top: 1.5rem;
+        margin-top: 3.5rem;
         font-size: 1.8rem;
         color: #FFFFFF;
+        text-align: center;
     }
 
     svg {

@@ -18,7 +18,7 @@ export default function App() {
     const [showLogout, setShowLogout] = useState(false);
     const [update, setUpdate] = useState(false);
     const [deleteModal, setDeleteModal] = useState({status: false, postId: false});
-
+    
     function getUser() {
         const userData = localStorage.getItem("userData");
         if (userData) {
