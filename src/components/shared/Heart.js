@@ -88,7 +88,9 @@ export function Heart({ id }) {
                     setClicked(false)
                     setUpdate(!update);
                 }
-                )
+                ).catch(err => {
+                    console.log(err)
+                })
         }
 
         axios.get(`${apiUrl}/like?postId=${id}`)

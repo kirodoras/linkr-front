@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Header } from "../shared/Header";
 import { PublishPost } from "../shared/PublishPost";
+import { FollowButton } from "../shared/FollowButton";
 import { Post } from "../shared/Post";
 import UserContext from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner';
@@ -10,9 +11,9 @@ import DeleteModal from "./DeleteModal";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import { TrendingHashtags } from "./TrendingHashtags";
 
-export default function MainBody({ title, isTimeline, route }) {
+export default function MainBody({ title, pageName, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
     const [postsArray, setPostsArray] = useState([]);
 
@@ -23,8 +24,22 @@ export default function MainBody({ title, isTimeline, route }) {
         />);
 
     useEffect(() => {
+        const URL = `${apiUrl}/follow/${user.userData.id}`;
+        const AUT = authorization;
+
+        const promise = axios.get(URL, AUT);
+        promise.then((response) => {
+            setFollowedUsers(response.data)
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [update]);
+
+    useEffect(() => {
         const URL = `${apiUrl}/${route}`;
-        const promise = axios.get(URL, authorization);
+        const AUT = authorization;
+
+        const promise = axios.get(URL, AUT);
         promise.then((response) => {
             setPostsArray(response.data);
             setLoading(null);
@@ -36,11 +51,27 @@ export default function MainBody({ title, isTimeline, route }) {
 
 
     function showPublishPost() {
-        if (isTimeline) {
+        if (pageName === "timeline") {
             return (
                 <>
-                    <PublishPost update={update} setUpdate={setUpdate} />
+                    <PublishPost />
                 </>
+            );
+        } else {
+            return (<></>)
+        }
+    }
+
+    function createFollowButton() {
+        const userId = Number(route.replace("user/", ""));
+        if(followedUsers.length > 0) {
+            setAlreadyFollow(followedUsers.some((user) => user.followedId === userId));
+        } else {
+            setAlreadyFollow(false);
+        }
+        if (pageName === "userPage" && userId !== user.userData.id) {
+            return (
+                <FollowButton userId={userId} alreadyFollow={alreadyFollow} setAlreadyFollow={setAlreadyFollow} />
             );
         } else {
             return (<></>)
@@ -92,6 +123,7 @@ export default function MainBody({ title, isTimeline, route }) {
 
     const publishPost = showPublishPost();
     const userPageTitle = createUserPageTitle();
+    const followButton = createFollowButton();
 
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
@@ -99,13 +131,12 @@ export default function MainBody({ title, isTimeline, route }) {
             <Header />
             <main>
                 <TimelineStyled>
-                    <h1>
-                        {userPageTitle}
-                    </h1>
+                    <h1>{userPageTitle}</h1>
                     {publishPost}
                     {loading ? loading : showPosts()}
                 </TimelineStyled>
                 <TrendingHashtags />
+                {followButton}
             </main>
         </Container>
     );
@@ -139,11 +170,13 @@ const Container = styled.div`
     background-color: #333333;
 
     main {
+        max-width: fit-content;
         width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
         gap: 1.5625rem;
+        position: relative;
     }
 `
 
@@ -151,7 +184,7 @@ const TimelineStyled = styled.div`
     width: 38.1875rem;
     max-height: 100%;
     max-width: 100%;
-    padding-top: 10rem;
+    padding-top: 132px;
     overflow: hidden;
     overflow-y: scroll;
     scrollbar-width: none;

@@ -45,8 +45,8 @@ const TrendingStyled = styled.div`
     max-height: 396px;
     background: #171717;
     border-radius: 1rem;
-    margin-top: 16.5rem;
-    padding: 9px 16px 9px 16px; 
+    margin-top: 15rem;
+    padding: 0.5625rem 1rem 0.5625rem 1rem; 
     color: #FFFFFF;
 
     h1 {

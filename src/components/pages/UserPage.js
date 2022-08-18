@@ -6,7 +6,7 @@ export default function UserPage() {
 
     return (
         <>
-            <MainBody title={null} isTimeline={false} route={`user/${id}`} />
+            <MainBody title={null} pageName={"userPage"} route={`user/${id}`} />
         </>
     );
 }
