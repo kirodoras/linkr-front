@@ -7,14 +7,14 @@ import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 
 export default function SearchBar() {
-    const { apiUrl, authorization } = useContext(UserContext);
+    const { user, apiUrl, authorization } = useContext(UserContext);
 
     const [search, setSearch] = useState('');
     const [usersfoundlist, setUsersFoundList] = useState([]);
 
     useEffect(() => {
         if(search.length >= 3) {
-            const URL = `${apiUrl}/users?username=${search}`;
+            const URL = `${apiUrl}/users/${user.userData.id}?username=${search}`;
             const promise = axios.get(URL, authorization);
             promise.then((response) => {
                 setUsersFoundList(response.data);
@@ -27,9 +27,12 @@ export default function SearchBar() {
     }, [search, apiUrl, authorization]);
 
     function loadUsers() {
-        return (
-            usersfoundlist.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} setSearch={setSearch} />)
-        );
+        if(usersfoundlist.length > 0) {
+            return (
+                usersfoundlist.map((user, index) => <UserFound key={index} id={user.id} userPicture={user.pictureUrl} username={user.username} setSearch={setSearch} />)
+            );
+        }
+        return (<></>); 
     }
 
     const showUsers = loadUsers();
