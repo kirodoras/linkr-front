@@ -5,9 +5,10 @@ import defaultAvatar from '../../assets/default-avatar.png';
 import UserContext from "../../contexts/UserContext";
 
 export default function UserFound({ userId, username, pictureUrl, comment }) {
-    const { followedUsers } = useContext(UserContext);
+    const { followedUsers, user } = useContext(UserContext);
 
-    const followed = followedUsers.some((user) => user.followedId === userId)
+    const followed = followedUsers.some((user) => user.followedId === userId);
+    const ownComment = userId === user.userData.id ? true : false;
 
     const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ export default function UserFound({ userId, username, pictureUrl, comment }) {
                 <div>
                     <h3 onClick={() => navigate(`/user/${userId}`)}>{username}</h3>
                     {followed ? <h4>• following</h4> : <></>}
+                    {ownComment ? <h4>• post's author</h4> : <></>}
                 </div>
                 <h2>{comment}</h2>
             </CommentArea>
@@ -27,11 +29,11 @@ export default function UserFound({ userId, username, pictureUrl, comment }) {
 }
 
 const Container = styled.div`
-    width: 90%;
+    width: 92%;
     height: 71px;
     display: flex;
     align-items: center;
-    margin-left: 5%;
+    margin-left: 4%;
     border-bottom: 1px solid #353535;
 
     img {

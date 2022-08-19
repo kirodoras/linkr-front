@@ -26,23 +26,24 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     const [disabledComment, setDisabledComment] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [comment, setComment] = useState("");
-    const [commentsList, setcommentsList] = useState([{
-        userId: 5,
-        username: "luigi_3",
-        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
-        comment: "comentário teste"
-    },
-    {
-        userId: 5,
-        username: "luigi_3",
-        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
-        comment: "comentário teste"
-    }
-    ]);
+    const [commentsList, setcommentsList] = useState([]);
+    const [openComments, setOpenComments] = useState(false);
 
     const textareaRef = useRef(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const URL = `${apiUrl}/comments/${postId}`;
+        const AUT = authorization;
+
+        const promise = axios.get(URL, AUT);
+        promise.then((response) => {
+            setcommentsList(response.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [apiUrl, authorization, setcommentsList]);
 
     useEffect(() => {
         setArticleEdit(article);
@@ -112,7 +113,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     }
 
     function createComments() {
-        if (commentsList.length > 0) {
+        if (commentsList.length > 0 && openComments) {
             return (
                 commentsList.map((comment, index) => <Comment key={index} userId={comment.userId} username={comment.username} pictureUrl={comment.pictureUrl} comment={comment.comment} />)
             );
@@ -148,7 +149,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                 <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
                 <Heart id={postId} />
                 <Share id={postId} />
-                <CommentIcon id={postId} />
+                <CommentIcon id={postId} setOpenComments={setOpenComments} openComments={openComments} />
                 {editAndDelete}
                 <PostContentStyled>
                     <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
@@ -163,7 +164,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             </PostStyled>
             {showComments}
             <InputComment>
-                <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
+                <img src={user.userData.pictureUrl ? user.userData.pictureUrl : defaultAvatar} alt="Avatar" />
                 <input type="text" placeholder="write a comment..." onChange={(e) => setComment(e.target.value)} value={comment} disabled={disabledComment} />
                 <IoPaperPlaneOutline onClick={sendComment}/>
             </InputComment>
@@ -172,9 +173,9 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
 }
 
 const InputComment = styled.div`
-    width: 90%;
+    width: 92%;
     height: 83px;
-    margin-left: 5%;
+    margin-left: 4%;
     display: flex;
     align-items: center;
     position: relative;

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-export function CommentIcon({ id }) {
+export function CommentIcon({ id, setOpenComments, openComments }) {
     const { apiUrl, authorization } = useContext(UserContext);
     const [amount, setAmount] = useState(0);
 
@@ -23,7 +23,7 @@ export function CommentIcon({ id }) {
     }, [apiUrl]);
 
     return (
-        <ShareStyled>
+        <ShareStyled onClick={() => setOpenComments(!openComments)}>
             <IoChatbubblesOutline />
             <p>{`${amount} comments`}</p>
         </ShareStyled>
