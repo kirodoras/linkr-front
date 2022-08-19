@@ -9,12 +9,15 @@ import { TailSpin } from 'react-loader-spinner';
 import styled from "styled-components";
 import DeleteModal from "./DeleteModal";
 import deleteModalContext from '../../contexts/deleteModalContext';
+import ShareModal from "./ShareModal";
+import shareModalContext from "../../contexts/shareModalContext";
 import { TrendingHashtags } from "./TrendingHashtags";
 
 export default function MainBody({ title, pageName, route }) {
 
     const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
+    const { shareModal } = useContext(shareModalContext);
     const [postsArray, setPostsArray] = useState([]);
 
     const [loading, setLoading] = useState(
@@ -82,9 +85,9 @@ export default function MainBody({ title, pageName, route }) {
         if (postsArray.length > 0 && postsArray[0].postId !== null) {
             return (
                 <>
-                    {postsArray.map((value) =>
+                    {postsArray.map((value, index) =>
                         <Post
-                            key={value.postId}
+                            key={index}
                             userId={value.userId}
                             postId={value.postId}
                             url={value.url}
@@ -140,6 +143,7 @@ export default function MainBody({ title, pageName, route }) {
     return (
         <Container onClick={() => { if (showLogout) setShowLogout(false) }}>
             {deleteModal.status ? <DeleteModal /> : <></>}
+            {shareModal.status ? <ShareModal /> : <></>}
             <Header />
             <main>
                 <TimelineStyled>

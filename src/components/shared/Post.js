@@ -9,6 +9,7 @@ import { IoTrash, IoPencil } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 import { HashtagText } from "./HashtagText";
+import { Share } from "./Share";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
@@ -99,6 +100,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         <PostStyled>
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={postId} />
+            <Share id={postId} />
             {editAndDelete}
             <PostContentStyled>
                 <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
