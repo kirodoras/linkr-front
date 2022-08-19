@@ -36,7 +36,7 @@ export default function MainBody({ title, pageName, route }) {
         }).catch((err) => {
             console.log(err);
         });
-    }, [update, apiUrl, user, setFollowedUsers, authorization]);
+    }, [apiUrl, update]);
 
     useEffect(() => {
         const URL = `${apiUrl}/${route}`;
