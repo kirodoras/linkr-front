@@ -17,34 +17,42 @@ export function Heart({ id }) {
         let text = "";
 
         if (data.length === 0) {
-            text = "seja o primeiro a curtir!";
+            text = "Seja o primeiro a curtir!";
         } else {
-            if (data.length === 1 && data.filter(value => value.userId === userId).length) {
-                text = "parabens, voce foi o primeiro a curtir!"
-            } if (data.length === 1) {
+            if (data.length === 1 && data[0].username === user.userData.username) {
+                text = "Você curtiu"
+            } else if (data.length === 1) {
                 text = `${data[0].username} curtiu`
             } else {
                 if (data.length === 2 && data.filter(value => value.userId === userId).length) {
                     if (data.filter(value => value.userId === userId).length) {
-                        text += "Voce e outra pessoa curtiu"
+                        text += "Você e outra pessoa curtiu"
                     }
                 } else {
 
                     let i = 0;
                     if (data.filter(value => value.userId === userId).length) {
-                        text += "Voce, "
+                        text += "Você, "
                     } else {
                         while (data[i].userId === userId) {
                             i++;
                         }
-                        text += `${data[i].username}, `;
+                        if(data.length === 2) {
+                            text += `${data[i].username} e `;
+                        } else {
+                            text += `${data[i].username}, `;
+                        }
                     }
                     let j = 0;
                     while (data[j].userId === userId || data[i].username === data[j].username) {
                         console.log("a")
                         j++;
                     }
-                    text += `${data[j].username} e outras ${data.length - 2} pessoas`;
+                    if(data.length === 2) {
+                        text += `${data[j].username} curtiram`;
+                    } else {
+                        text += `${data[j].username} e outras ${data.length - 2} pessoas`;
+                    } 
                 }
             }
         }
