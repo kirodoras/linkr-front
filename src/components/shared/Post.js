@@ -9,6 +9,7 @@ import { IoTrash, IoPencil } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 import { HashtagText } from "./HashtagText";
+import { Share } from "./Share";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
@@ -28,7 +29,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     useEffect(() => {
         setArticleEdit(article);
 
-        if(editMode) {
+        if (editMode) {
             textareaRef.current.focus();
         }
     }, [editMode, article]);
@@ -67,7 +68,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             setEditMode(false);
         } else if (e.keyCode === 13) {
             updateArticle(postId);
-        }     
+        }
     }
 
     function createPost() {
@@ -75,12 +76,12 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             return (
                 <Edit>
                     <textarea onKeyDown={cancelOrSave} className='article'
-                    disabled={disabled}
-                    type='text'
-                    placeholder=''
-                    value={articleEdit}
-                    onChange={(e) => setArticleEdit(e.target.value)} 
-                    ref={textareaRef} />
+                        disabled={disabled}
+                        type='text'
+                        placeholder=''
+                        value={articleEdit}
+                        onChange={(e) => setArticleEdit(e.target.value)}
+                        ref={textareaRef} />
                 </Edit>
             );
         } else {
@@ -100,6 +101,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             <PostStyled>
                 <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
                 <Heart id={postId} />
+                <Share id={postId} />
                 {editAndDelete}
                 <PostContentStyled>
                     <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
@@ -121,7 +123,6 @@ const Container = styled.div`
     background-color: #1E1E1E;
     margin-bottom: 10px;
     margin-top: 2.6875rem;
-    border-radius: 1rem 1rem 0 0;
 `
 
 const PostStyled = styled.div`
@@ -144,7 +145,6 @@ const PostStyled = styled.div`
     }
 
     @media(max-width: 1100px) {
-        margin-top: 1rem;
         border-radius: 0;
     }
 `;

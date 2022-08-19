@@ -1,59 +1,60 @@
 import styled from 'styled-components';
-import deleteModalContext from '../../contexts/deleteModalContext';
+import shareModalContext from '../../contexts/shareModalContext';
 import { useState, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import { ThreeDots } from 'react-loader-spinner';
 
-export default function DeleteModal() {
-    const { deleteModal, setDeleteModal } = useContext(deleteModalContext);
-    const postId = deleteModal.postId;
+export default function ShareModal() {
+    const { shareModal, setShareModal } = useContext(shareModalContext);
+    const postId = shareModal.postId;
 
-    const { apiUrl, authorization, update, setUpdate } = useContext(UserContext);
-
+    const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
+  
     const [disabled, setDisabled] = useState(false);
-    const [buttonContent, setButtonContent] = useState("Yes, delete it");
+    const [buttonContent, setButtonContent] = useState("Yes, share!");
 
-    function deletePost(id) {
+    function sharePost(id) {
         setDisabled(true);
         setButtonContent(<ThreeDots height={70} width={70} color="#FFFFFF" />);
-        const URL = `${apiUrl}/timeline/${id}`;
+        const URL = `${apiUrl}/share/${postId}`;
         const AUT = authorization;
-        console.log(AUT);
-        const promise = axios.delete(URL, AUT);
+        console.log(AUT)
+        const promise = axios.post(URL, {}, AUT);
         promise.then((response) => {
-            setDeleteModal({ status: false, postId: false });
+            setShareModal({ status: false, postId: false });
             setUpdate(!update);
         }).catch((err) => {
-            setDeleteModal({ status: false, postId: false });
-            alert("Erro ao deletar post");
+            console.log(err);
+            setShareModal({ status: false, postId: false });
+            alert("Erro ao dar share");
         });
     }
 
     return (
-        <DeleteModalStyled>
+        <ShareModalStyled>
             <ModalContentStyled>
-                <h1>Are you sure you want to delete this post?</h1>
+                <h1>Do you want to re-post this link?</h1>
                 <div>
                     <button
                         disabled={disabled}
                         className='no'
-                        onClick={() => setDeleteModal({ status: false, postId: false })}>
-                        No, go back
+                        onClick={() => setShareModal({ status: false, postId: false })}>
+                        No, cancel
                     </button>
                     <button
                         disabled={disabled}
                         className='yes'
-                        onClick={() => deletePost(postId)}>
+                        onClick={() => sharePost(postId)}>
                         {buttonContent}
                     </button>
                 </div>
             </ModalContentStyled>
-        </DeleteModalStyled>
+        </ShareModalStyled>
     );
 }
 
-const DeleteModalStyled = styled.div`
+const ShareModalStyled = styled.div`
     width: 100vw;
     height: 100vh;
 

@@ -126,7 +126,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    top: 30%;
+    top: 24%;
     left: calc((0.00415 * 100%) + 1rem);
 
     p {
