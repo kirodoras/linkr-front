@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { DebounceInput } from 'react-debounce-input';
 import UserFound from "./UserFound";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
+import { IoSearch } from "react-icons/io5";
 
 export default function SearchBar() {
     const { user, apiUrl, authorization } = useContext(UserContext);
@@ -39,6 +39,7 @@ export default function SearchBar() {
 
     return (
         <Container usersfoundlist={usersfoundlist}>
+            <IoSearch />
             <DebounceInput type="text" placeholder="Search for people" minLength={0} debounceTimeout={300} onChange={(e) => setSearch(e.target.value)} value={search} usersfoundlist={usersfoundlist} />
             {showUsers}
         </Container>
@@ -51,6 +52,7 @@ const Container = styled.div`
     background: #E7E7E7;
     border-radius: 8px;
     padding-bottom: ${props => props.usersfoundlist.length > 0 ? "5px" : "0" };
+    position: relative;
     
     input {
         width: 100%;
@@ -70,5 +72,13 @@ const Container = styled.div`
             line-height: 23px;
             color: #C6C6C6;
         }
+    }
+
+    svg {
+        font-size: 1.5rem;
+        color: #C6C6C6;
+        position: absolute;
+        right: 13px;
+        top: 10px;
     }
 `
