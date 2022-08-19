@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { IoRepeatOutline } from "react-icons/io5";
 
-export function ShareBy() {
-    const username = '@username';
-    const sharedBy = "@outrapessoa";
+export function ShareBy({username, sharedBy}) {
     const name = username === sharedBy ? "you" : sharedBy;
     return (
         <ShareByStyled>

@@ -99,7 +99,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
 
     return (
         <PostStyled sharedBy={sharedBy}>
-            {sharedBy ? <ShareBy /> : null}
+            {sharedBy ? <ShareBy username={username} sharedBy={sharedBy}/> : null}
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={postId} />
             <Share id={postId} />
