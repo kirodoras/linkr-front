@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import UserContext from "../contexts/UserContext";
 import DeleteModalContext from "../contexts/deleteModalContext";
+import ShareModalContext from "../contexts/shareModalContext";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import TimelinePage from "./pages/TimelinePage";
@@ -17,8 +18,9 @@ export default function App() {
     const [alreadyFollow, setAlreadyFollow] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
     const [update, setUpdate] = useState(false);
-    const [deleteModal, setDeleteModal] = useState({status: false, postId: false});
-    
+    const [deleteModal, setDeleteModal] = useState({ status: false, postId: false });
+    const [shareModal, setShareModal] = useState({ status: false, postId: false });
+
     function getUser() {
         const userData = localStorage.getItem("userData");
         if (userData) {
@@ -35,18 +37,21 @@ export default function App() {
 
     const contextValue = { user, setUser, showLogout, setShowLogout, apiUrl, authorization, update, setUpdate, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow };
     const deleteModalContextValue = { deleteModal, setDeleteModal };
+    const shareModalContextValue = { shareModal, setShareModal };
     return (
         <UserContext.Provider value={contextValue}>
             <DeleteModalContext.Provider value={deleteModalContextValue}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<LoginPage />} />
-                        <Route path="/sign-up" element={<SignUpPage />} />
-                        <Route path="/timeline" element={<TimelinePage />} />
-                        <Route path="/user/:id" element={<UserPage />} />
-                        <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
-                    </Routes>
-                </BrowserRouter>
+                <ShareModalContext.Provider value={shareModalContextValue}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<LoginPage />} />
+                            <Route path="/sign-up" element={<SignUpPage />} />
+                            <Route path="/timeline" element={<TimelinePage />} />
+                            <Route path="/user/:id" element={<UserPage />} />
+                            <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+                        </Routes>
+                    </BrowserRouter>
+                </ShareModalContext.Provider>
             </DeleteModalContext.Provider>
         </UserContext.Provider>
     )
