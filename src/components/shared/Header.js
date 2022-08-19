@@ -67,7 +67,7 @@ export function Header() {
     return (
         <Container>
             <HeaderStyled>
-                <img src={logo} alt="Logo Linkr" />
+                <img src={logo} alt="Logo Linkr" onClick={() => navigate("/timeline")} />
                 {searchBarDesktop}
                 <Dropdown>
                     {dropdown}

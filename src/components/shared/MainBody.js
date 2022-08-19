@@ -77,6 +77,8 @@ export default function MainBody({ title, pageName, route }) {
             return (<></>)
         }
     }
+    
+    console.log(postsArray);
 
     function showPosts() {
         if (postsArray.length > 0 && postsArray[0].postId !== null) {
