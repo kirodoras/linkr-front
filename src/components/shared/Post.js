@@ -11,8 +11,9 @@ import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 import { HashtagText } from "./HashtagText";
 import { Share } from "./Share";
+import { ShareBy } from "./ShareBy";
 
-export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description, sharedBy }) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const { setDeleteModal } = useContext(deleteModalContext);
 
@@ -65,7 +66,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     }
 
     function createEditAndDelete() {
-        if (userData.id === userId) {
+        if (userData.id === userId && username !== sharedBy) {
             return (
                 <EditDelete>
                     <IoPencil onClick={() => setEditMode(!editMode)} />
@@ -122,7 +123,8 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
 
     return (
         <Container>
-            <PostStyled>
+            <PostStyled sharedBy={sharedBy}>
+                {sharedBy ? <ShareBy username={username} sharedBy={sharedBy} /> : null}
                 <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
                 <Heart id={postId} />
                 <Share id={postId} />
@@ -163,6 +165,7 @@ const PostStyled = styled.div`
     background: #171717;
     border-radius: 1rem;
 
+    margin-top: ${props => props.sharedBy ? "4.1875rem" : "2.6875rem"};
     padding: 1rem 1.3125rem 1.25rem 1rem;
 
     display: flex;
@@ -175,6 +178,7 @@ const PostStyled = styled.div`
     }
 
     @media(max-width: 1100px) {
+        margin-top: ${props => props.sharedBy ? "4.1875rem" : "1rem"};
         border-radius: 0;
     }
 `;

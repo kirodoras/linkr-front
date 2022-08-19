@@ -96,6 +96,7 @@ export default function MainBody({ title, pageName, route }) {
                             title={value.title}
                             image={value.image}
                             description={value.description}
+                            sharedBy={value.sharedBy ? value.sharedBy : null}
                         />)}
                 </>
             );
