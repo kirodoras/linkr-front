@@ -9,7 +9,7 @@ export default function ShareModal() {
     const { shareModal, setShareModal } = useContext(shareModalContext);
     const postId = shareModal.postId;
 
-    const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
+    const { apiUrl, authorization, update, setUpdate } = useContext(UserContext);
   
     const [disabled, setDisabled] = useState(false);
     const [buttonContent, setButtonContent] = useState("Yes, share!");

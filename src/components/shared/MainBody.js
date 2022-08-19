@@ -15,7 +15,7 @@ import { TrendingHashtags } from "./TrendingHashtags";
 
 export default function MainBody({ title, pageName, route }) {
 
-    const { apiUrl, showLogout, setShowLogout, authorization, update, setUpdate, user, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow } = useContext(UserContext);
+    const { apiUrl, showLogout, setShowLogout, authorization, update, user, followedUsers, setFollowedUsers, alreadyFollow, setAlreadyFollow } = useContext(UserContext);
     const { deleteModal } = useContext(deleteModalContext);
     const { shareModal } = useContext(shareModalContext);
     const [postsArray, setPostsArray] = useState([]);
@@ -36,7 +36,7 @@ export default function MainBody({ title, pageName, route }) {
         }).catch((err) => {
             console.log(err);
         });
-    }, [update]);
+    }, [update, apiUrl, user, setFollowedUsers, authorization]);
 
     useEffect(() => {
         const URL = `${apiUrl}/${route}`;
@@ -129,7 +129,7 @@ export default function MainBody({ title, pageName, route }) {
         } else if (postsArray.length > 0) {
             return (
                 <UserPageTitle>
-                    <img src={postsArray[0].pictureUrl} alt="picture profile" />
+                    <img src={postsArray[0].pictureUrl} alt="profile" />
                     <h1>{postsArray[0].username}'s posts</h1>
                 </UserPageTitle>
             );

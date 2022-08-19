@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import logo from '../../assets/linkr-logo.svg';

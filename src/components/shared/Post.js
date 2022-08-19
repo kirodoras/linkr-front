@@ -18,7 +18,6 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const { setDeleteModal } = useContext(deleteModalContext);
 
-    const token = user?.token;
     const userData = user?.userData;
 
     const [articleEdit, setArticleEdit] = useState(article);
@@ -43,7 +42,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         }).catch((err) => {
             console.log(err);
         });
-    }, [apiUrl, authorization, setcommentsList]);
+    }, [apiUrl, authorization, setcommentsList, postId]);
 
     useEffect(() => {
         setArticleEdit(article);

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function Login() {
-    const { user, setUser, apiUrl } = useContext(UserContext);
+    const { setUser, apiUrl } = useContext(UserContext);
 
     const navigate = useNavigate();
 

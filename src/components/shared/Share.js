@@ -6,7 +6,7 @@ import { IoRepeatOutline } from "react-icons/io5";
 import shareModalContext from '../../contexts/shareModalContext';
 
 export function Share({ id }) {
-    const { apiUrl, authorization } = useContext(UserContext);
+    const { apiUrl } = useContext(UserContext);
     const [amount, setAmount] = useState(0);
     const { setShareModal } = useContext(shareModalContext);
 
@@ -22,7 +22,7 @@ export function Share({ id }) {
         }).catch((err) => {
             console.log(err);
         });
-    }, [apiUrl]);
+    }, [apiUrl, id]);
 
     return (
         <ShareStyled  onClick={() => setShareModal({ status: true, postId: id })}>

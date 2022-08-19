@@ -24,7 +24,7 @@ export default function SearchBar() {
         } else {
             setUsersFoundList([]);
         }
-    }, [search, apiUrl, authorization]);
+    }, [search, apiUrl, authorization, user]);
 
     function loadUsers() {
         if(usersfoundlist.length > 0) {
