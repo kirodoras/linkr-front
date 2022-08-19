@@ -165,7 +165,7 @@ const PostStyled = styled.div`
     background: #171717;
     border-radius: 1rem;
 
-    margin-top: ${props => props.sharedBy ? "4.1875rem" : "2.6875rem"};
+    margin-top: ${props => props.sharedBy ? "33px" : "0"};
     padding: 1rem 1.3125rem 1.25rem 1rem;
 
     display: flex;
