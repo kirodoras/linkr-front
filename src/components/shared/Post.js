@@ -10,8 +10,9 @@ import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 import { HashtagText } from "./HashtagText";
 import { Share } from "./Share";
+import { ShareBy } from "./ShareBy";
 
-export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description }) {
+export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description, sharedBy }) {
     const { user, apiUrl, authorization, update, setUpdate } = useContext(UserContext);
     const { setDeleteModal } = useContext(deleteModalContext);
 
@@ -29,7 +30,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     useEffect(() => {
         setArticleEdit(article);
 
-        if(editMode) {
+        if (editMode) {
             textareaRef.current.focus();
         }
     }, [editMode, article]);
@@ -51,7 +52,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     }
 
     function createEditAndDelete() {
-        if (userData.id === userId) {
+        if (userData.id === userId && username !== sharedBy) {
             return (
                 <EditDelete>
                     <IoPencil onClick={() => setEditMode(!editMode)} />
@@ -68,7 +69,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             setEditMode(false);
         } else if (e.keyCode === 13) {
             updateArticle(postId);
-        }     
+        }
     }
 
     function createPost() {
@@ -76,12 +77,12 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
             return (
                 <Edit>
                     <textarea onKeyDown={cancelOrSave} className='article'
-                    disabled={disabled}
-                    type='text'
-                    placeholder=''
-                    value={articleEdit}
-                    onChange={(e) => setArticleEdit(e.target.value)} 
-                    ref={textareaRef} />
+                        disabled={disabled}
+                        type='text'
+                        placeholder=''
+                        value={articleEdit}
+                        onChange={(e) => setArticleEdit(e.target.value)}
+                        ref={textareaRef} />
                 </Edit>
             );
         } else {
@@ -97,7 +98,8 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     const articleText = createPost();
 
     return (
-        <PostStyled>
+        <PostStyled sharedBy={sharedBy}>
+            {sharedBy ? <ShareBy /> : null}
             <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
             <Heart id={postId} />
             <Share id={postId} />
@@ -170,7 +172,7 @@ const PostStyled = Styled.div`
     box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     border-radius: 1rem;
 
-    margin-top: 2.6875rem;
+    margin-top: ${props => props.sharedBy ? "4.6875rem" : "2.6875rem"};
     padding: 1rem 1.3125rem 1.25rem 1rem;
 
     display: flex;
@@ -183,7 +185,7 @@ const PostStyled = Styled.div`
     }
 
     @media(max-width: 1100px) {
-        margin-top: 1rem;
+        margin-top: ${props => props.sharedBy ? "4.6875rem" : "1rem"};
         border-radius: 0;
     }
 `;
