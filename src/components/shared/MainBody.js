@@ -82,9 +82,9 @@ export default function MainBody({ title, pageName, route }) {
         if (postsArray.length > 0 && postsArray[0].postId !== null) {
             return (
                 <>
-                    {postsArray.map((value) =>
+                    {postsArray.map((value, index) =>
                         <Post
-                            key={value.postId}
+                            key={index}
                             userId={value.userId}
                             postId={value.postId}
                             url={value.url}
