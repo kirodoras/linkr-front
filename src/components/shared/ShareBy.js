@@ -6,7 +6,7 @@ export function ShareBy({username, sharedBy}) {
     return (
         <ShareByStyled>
             <IoRepeatOutline />
-            <p>{`Re-posted by ${name}`}</p>
+            <p>Re-posted by <strong>{name}</strong></p>
         </ShareByStyled>
     );
 }
@@ -14,7 +14,7 @@ export function ShareBy({username, sharedBy}) {
 const ShareByStyled = styled.div`
     display: flex;
     position: absolute;
-    top: -47px;
+    top: -53px;
     left: 0;
 
     display: flex;
@@ -25,10 +25,7 @@ const ShareByStyled = styled.div`
     color: white;
 
     width: 100%;
-    height: 39px;
-
-    background: #1E1E1E;
-    border-radius: 16px 16px 0 0;
+    height: 33px;
 
     svg {
         margin-top: 0 !important;
@@ -38,7 +35,12 @@ const ShareByStyled = styled.div`
 
     p {
         font-weight: 400;
-        font-size: 11px;
-        line-height: 13px
+        font-size: 12px;
+        line-height: 13px;
+    }
+
+    strong {
+        font-size: 13px;
+        font-weight: 700;
     }
 `; 

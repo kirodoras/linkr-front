@@ -2,14 +2,16 @@ import styled from "styled-components";
 import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
+import Comment from "./Comment";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { useContext, useState, useRef, useEffect } from "react";
-import { IoTrash, IoPencil } from "react-icons/io5";
+import { IoTrash, IoPencil, IoPaperPlaneOutline } from "react-icons/io5";
 import deleteModalContext from '../../contexts/deleteModalContext';
 import axios from "axios";
 import { HashtagText } from "./HashtagText";
 import { Share } from "./Share";
+import { CommentIcon } from "./CommentIcon";
 import { ShareBy } from "./ShareBy";
 
 export function Post({ userId, postId, url, article, username, pictureUrl, title, image, description, sharedBy }) {
@@ -21,7 +23,22 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
 
     const [articleEdit, setArticleEdit] = useState(article);
     const [disabled, setDisabled] = useState(false);
+    const [disabledComment, setDisabledComment] = useState(false);
     const [editMode, setEditMode] = useState(false);
+    const [comment, setComment] = useState("");
+    const [commentsList, setcommentsList] = useState([{
+        userId: 5,
+        username: "luigi_3",
+        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
+        comment: "comentário teste"
+    },
+    {
+        userId: 5,
+        username: "luigi_3",
+        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
+        comment: "comentário teste"
+    }
+    ]);
 
     const textareaRef = useRef(null);
 
@@ -94,8 +111,35 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         }
     }
 
+    function createComments() {
+        if (commentsList.length > 0) {
+            return (
+                commentsList.map((comment, index) => <Comment key={index} userId={comment.userId} username={comment.username} pictureUrl={comment.pictureUrl} comment={comment.comment} />)
+            );
+        }
+        return (<></>);
+    }
+
+    function sendComment() {
+        setDisabledComment(true);
+        const URL = `${apiUrl}/comment/${postId}`;
+        const AUT = authorization;
+        const BODY = { comment: comment };
+        const promise = axios.post(URL, BODY, AUT);
+        promise.then((response) => {
+            setDisabledComment(false);
+            setComment("");
+            setUpdate(!update);
+        }).catch((err) => {
+            setDisabledComment(false);
+            setComment("");
+            alert("Não foi possível postar comentário");
+        });
+    }
+
     const editAndDelete = createEditAndDelete();
     const articleText = createPost();
+    const showComments = createComments();
 
     return (
         <Container>
@@ -104,6 +148,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                 <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
                 <Heart id={postId} />
                 <Share id={postId} />
+                <CommentIcon id={postId} />
                 {editAndDelete}
                 <PostContentStyled>
                     <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
@@ -116,15 +161,73 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                     </LinkContentStyled>
                 </PostContentStyled>
             </PostStyled>
+            {showComments}
+            <InputComment>
+                <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
+                <input type="text" placeholder="write a comment..." onChange={(e) => setComment(e.target.value)} value={comment} disabled={disabledComment} />
+                <IoPaperPlaneOutline onClick={sendComment}/>
+            </InputComment>
         </Container>
     );
 }
+
+const InputComment = styled.div`
+    width: 90%;
+    height: 83px;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    img {
+        width: 39px;
+        height: 39px;
+        border-radius: 50%;
+        margin-right: 14px;
+    }
+
+    input {
+        width: 100%;
+        height: 39px;
+        background-color: #252525;
+        border-radius: 8px;
+        padding: 11px 15px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #ACACAC;
+        outline: none;
+
+        &::placeholder {
+            font-style: italic;
+            letter-spacing: 0.05em;
+            color: #575757;
+        }
+
+        &:disabled {
+            opacity: 0.7;
+        }
+    }
+
+    svg {
+        color: white;
+        font-size: 1.3rem;
+        position: absolute;
+        right: 12.5px;
+        top: 7px;
+    }
+`
 
 const Container = styled.div`
     width: 100%;
     background-color: #1E1E1E;
     margin-bottom: 10px;
     margin-top: 2.6875rem;
+    border-radius: 1rem;
+
+    @media(max-width: 1100px) {
+        border-radius: 0;
+    }
 `
 
 const PostStyled = styled.div`
@@ -135,7 +238,7 @@ const PostStyled = styled.div`
     background: #171717;
     border-radius: 1rem;
 
-    margin-top: ${props => props.sharedBy ? "4.1875rem" : "2.6875rem"};
+    margin-top: ${props => props.sharedBy ? "33px" : "0"};
     padding: 1rem 1.3125rem 1.25rem 1rem;
 
     display: flex;
@@ -148,7 +251,7 @@ const PostStyled = styled.div`
     }
 
     @media(max-width: 1100px) {
-        margin-top: ${props => props.sharedBy ? "4.1875rem" : "1rem"};
+        margin-top: ${props => props.sharedBy ? "33px" : "0"};
         border-radius: 0;
     }
 `;
@@ -294,8 +397,8 @@ const Edit = styled.div`
         }
 
         &:disabled {
-        background-color: #F2F2F2;
-        color: #AFAFAF;
+            background-color: #F2F2F2;
+            color: #AFAFAF;
         }
     }
 

@@ -2,16 +2,14 @@ import styled from 'styled-components';
 import UserContext from "../../contexts/UserContext";
 import axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
-import { IoRepeatOutline } from "react-icons/io5";
-import shareModalContext from '../../contexts/shareModalContext';
+import { IoChatbubblesOutline } from "react-icons/io5";
 
-export function Share({ id }) {
+export function CommentIcon({ id }) {
     const { apiUrl, authorization } = useContext(UserContext);
     const [amount, setAmount] = useState(0);
-    const { setShareModal } = useContext(shareModalContext);
 
     useEffect(() => {
-        const URL = `${apiUrl}/share/${id}`;
+        const URL = `${apiUrl}/comment/${id}`;
         const promise = axios.get(URL);
         promise.then((res) => {
             if (res.data.amount === null || res.data.amount === undefined) {
@@ -25,9 +23,9 @@ export function Share({ id }) {
     }, [apiUrl]);
 
     return (
-        <ShareStyled  onClick={() => setShareModal({ status: true, postId: id })}>
-            <IoRepeatOutline />
-            <p>{`${amount} re-posts`}</p>
+        <ShareStyled>
+            <IoChatbubblesOutline />
+            <p>{`${amount} comments`}</p>
         </ShareStyled>
     );
 }
@@ -38,8 +36,8 @@ const ShareStyled = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    top: 61%;
-    left: calc((0.00415 * 100%) + 0.74rem);
+    top: 42.5%;
+    left: calc((0.00415 * 100%) + 0.4rem);
 
     svg {
         font-size: 1.8rem;
