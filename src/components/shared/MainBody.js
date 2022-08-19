@@ -52,7 +52,6 @@ export default function MainBody({ title, pageName, route }) {
         });
     }, [update, apiUrl, authorization, route, setPostsArray]);
 
-
     function showPublishPost() {
         if (pageName === "timeline") {
             return (

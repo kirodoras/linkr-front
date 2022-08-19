@@ -1,4 +1,4 @@
-import Styled from "styled-components";
+import styled from "styled-components";
 import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
@@ -98,78 +98,41 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     const articleText = createPost();
 
     return (
-        <PostStyled sharedBy={sharedBy}>
-            {sharedBy ? <ShareBy username={username} sharedBy={sharedBy}/> : null}
-            <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
-            <Heart id={postId} />
-            <Share id={postId} />
-            {editAndDelete}
-            <PostContentStyled>
-                <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
-                {articleText}
-                <LinkContentStyled href={url} target="_blank">
-                    <TitleStyled>{title}</TitleStyled>
-                    <DescriptionStyled>{description}</DescriptionStyled>
-                    <UrlStyled>{url}</UrlStyled>
-                    <img src={image ? image : defaultImage} alt="Url logo" />
-                </LinkContentStyled>
-            </PostContentStyled>
-        </PostStyled>
+        <Container>
+            <PostStyled sharedBy={sharedBy}>
+                {sharedBy ? <ShareBy username={username} sharedBy={sharedBy} /> : null}
+                <img src={pictureUrl ? pictureUrl : defaultAvatar} alt="Avatar" />
+                <Heart id={postId} />
+                <Share id={postId} />
+                {editAndDelete}
+                <PostContentStyled>
+                    <UsernameStyled onClick={() => navigate(`/user/${userId}`)}>{username}</UsernameStyled>
+                    {articleText}
+                    <LinkContentStyled href={url} target="_blank">
+                        <TitleStyled>{title}</TitleStyled>
+                        <DescriptionStyled>{description}</DescriptionStyled>
+                        <UrlStyled>{url}</UrlStyled>
+                        <img src={image ? image : defaultImage} alt="Url logo" />
+                    </LinkContentStyled>
+                </PostContentStyled>
+            </PostStyled>
+        </Container>
     );
 }
 
-const Edit = Styled.div`
-    margin: 10px 0 -10px 0;
+const Container = styled.div`
     width: 100%;
-
-    &>textarea {
-        background: #FFFFFF;
-        border-radius: 0.3125rem;
-        height: 70px;
-        width: 100%;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 17px;
-        color: #4C4C4C;
-        resize: none;
-        outline: none;
-        padding: 0.3125rem 0.8125rem 0 0.8125rem;
-        word-wrap: break-word;
-
-        &::placeholder {
-            color: #949494
-        }
-
-        &:disabled {
-        background-color: #F2F2F2;
-        color: #AFAFAF;
-        }
-    }
-
-    @media(max-width: 1100px) {
-        font-size: 15px;
-        line-height: 18px;
-    }
+    background-color: #1E1E1E;
+    margin-bottom: 10px;
+    margin-top: 2.6875rem;
 `
 
-const EditDelete = Styled.div`
-    position: absolute;
-    top: -0.6875rem;
-    right: 1.25rem;
-    svg {
-        color: white;
-        font-size: 1.6rem;
-        margin-left: 10px;
-    }
-`
-
-const PostStyled = Styled.div`
+const PostStyled = styled.div`
     position: relative;
     width: 100%;
     height: 17.25rem;
 
     background: #171717;
-    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     border-radius: 1rem;
 
     margin-top: ${props => props.sharedBy ? "4.1875rem" : "2.6875rem"};
@@ -190,13 +153,13 @@ const PostStyled = Styled.div`
     }
 `;
 
-const PostContentStyled = Styled.div`
+const PostContentStyled = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
 `;
 
-const LinkContentStyled = Styled.a`
+const LinkContentStyled = styled.a`
     display: flex;
     flex-direction: column;
 
@@ -237,7 +200,7 @@ const LinkContentStyled = Styled.a`
     }
 `;
 
-const UsernameStyled = Styled.span`
+const UsernameStyled = styled.span`
     width: fit-content;
     font-weight: 400;
     font-size: 19px;
@@ -249,7 +212,7 @@ const UsernameStyled = Styled.span`
     }
 `;
 
-const ArticleStyled = Styled.span`
+const ArticleStyled = styled.span`
     margin-top: 7px;
     font-weight: 400;
     font-size: 17px;
@@ -262,7 +225,7 @@ const ArticleStyled = Styled.span`
     }
 `;
 
-const TitleStyled = Styled.span`
+const TitleStyled = styled.span`
     max-width: 302.82px;
     font-weight: 400;
     font-size: 16px;
@@ -275,7 +238,7 @@ const TitleStyled = Styled.span`
     }
 `;
 
-const DescriptionStyled = Styled.span`
+const DescriptionStyled = styled.span`
     margin-top: 5px;
     max-width: 302.82px;    
     font-weight: 400;
@@ -292,7 +255,7 @@ const DescriptionStyled = Styled.span`
     }
 `;
 
-const UrlStyled = Styled.span`
+const UrlStyled = styled.span`
     margin-top: 13px;
     max-width: 302.82px;
     word-wrap: break-word;
@@ -305,6 +268,51 @@ const UrlStyled = Styled.span`
         max-width: 175px;
         font-size: 9px;
         line-height: 11px;
+    }
+`;
+
+const Edit = styled.div`
+    margin: 10px 0 -10px 0;
+    width: 100%;
+
+    &>textarea {
+        background: #FFFFFF;
+        border-radius: 0.3125rem;
+        height: 70px;
+        width: 100%;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #4C4C4C;
+        resize: none;
+        outline: none;
+        padding: 0.3125rem 0.8125rem 0 0.8125rem;
+        word-wrap: break-word;
+
+        &::placeholder {
+            color: #949494
+        }
+
+        &:disabled {
+        background-color: #F2F2F2;
+        color: #AFAFAF;
+        }
+    }
+
+    @media(max-width: 1100px) {
+        font-size: 15px;
+        line-height: 18px;
+    }
+`;
+
+const EditDelete = styled.div`
+    position: absolute;
+    top: -0.6875rem;
+    right: 1.25rem;
+    svg {
+        color: white;
+        font-size: 1.6rem;
+        margin-left: 10px;
     }
 `;
 
