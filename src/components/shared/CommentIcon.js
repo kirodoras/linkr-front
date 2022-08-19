@@ -5,7 +5,7 @@ import { useState, useContext, useEffect } from 'react';
 import { IoChatbubblesOutline } from "react-icons/io5";
 
 export function CommentIcon({ id, setOpenComments, openComments }) {
-    const { apiUrl } = useContext(UserContext);
+    const { apiUrl, update } = useContext(UserContext);
     const [amount, setAmount] = useState(0);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export function CommentIcon({ id, setOpenComments, openComments }) {
         }).catch((err) => {
             console.log(err);
         });
-    }, [apiUrl, id]);
+    }, [update, apiUrl, id]);
 
     return (
         <ShareStyled onClick={() => setOpenComments(!openComments)}>
