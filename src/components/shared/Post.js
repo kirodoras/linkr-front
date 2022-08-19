@@ -2,6 +2,7 @@ import styled from "styled-components";
 import defaultImage from "../../assets/default-image.png";
 import defaultAvatar from '../../assets/default-avatar.png';
 import { Heart } from "./Heart";
+import Comment from "./Comment";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { useContext, useState, useRef, useEffect } from "react";
@@ -21,6 +22,19 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
     const [articleEdit, setArticleEdit] = useState(article);
     const [disabled, setDisabled] = useState(false);
     const [editMode, setEditMode] = useState(false);
+    const [commentsList, setcommentsList] = useState([{
+        userId: 5,
+        username: "luigi_3",
+        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
+        comment: "comentário teste"
+    },
+    {
+        userId: 5,
+        username: "luigi_3",
+        pictureUrl: "https://legobrasil.vteximg.com.br/arquivos/ids/173824-1000-600/lego_71387_super_mario_aventuras_com_luigi_inicio_05.jpg?v=637602500495600000",
+        comment: "comentário teste"
+    }
+    ]);
 
     const textareaRef = useRef(null);
 
@@ -93,8 +107,18 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
         }
     }
 
+    function createComments() {
+        if (commentsList.length > 0) {
+            return (
+                commentsList.map((comment, index) => <Comment key={index} userId={comment.userId} username={comment.username} pictureUrl={comment.pictureUrl} comment={comment.comment} />)
+            );
+        }
+        return (<></>);
+    }
+
     const editAndDelete = createEditAndDelete();
     const articleText = createPost();
+    const showComments = createComments();
 
     return (
         <Container>
@@ -114,6 +138,7 @@ export function Post({ userId, postId, url, article, username, pictureUrl, title
                     </LinkContentStyled>
                 </PostContentStyled>
             </PostStyled>
+            {showComments}
         </Container>
     );
 }
@@ -123,6 +148,11 @@ const Container = styled.div`
     background-color: #1E1E1E;
     margin-bottom: 10px;
     margin-top: 2.6875rem;
+    border-radius: 1rem;
+
+    @media(max-width: 1100px) {
+        border-radius: 0;
+    }
 `
 
 const PostStyled = styled.div`
