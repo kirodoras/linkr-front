@@ -172,7 +172,7 @@ const PostStyled = Styled.div`
     box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     border-radius: 1rem;
 
-    margin-top: ${props => props.sharedBy ? "4.6875rem" : "2.6875rem"};
+    margin-top: ${props => props.sharedBy ? "4.1875rem" : "2.6875rem"};
     padding: 1rem 1.3125rem 1.25rem 1rem;
 
     display: flex;
@@ -185,7 +185,7 @@ const PostStyled = Styled.div`
     }
 
     @media(max-width: 1100px) {
-        margin-top: ${props => props.sharedBy ? "4.6875rem" : "1rem"};
+        margin-top: ${props => props.sharedBy ? "4.1875rem" : "1rem"};
         border-radius: 0;
     }
 `;
